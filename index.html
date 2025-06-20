@@ -176,9 +176,18 @@
       </div>
       <small class="info-text">📍 Klik tombol untuk ambil lokasi otomatis</small>
       
-      <input type="file" name="gambarDepan" accept="image/*" required onchange="previewImage(this, 'previewDepan')" />
-<input type="file" name="gambarSamping" accept="image/*" required onchange="previewImage(this, 'previewSamping')" />
-<input type="file" name="gambarBelakang" accept="image/*" required onchange="previewImage(this, 'previewBelakang')" />
+      <label for="gambarDepan">Tampak Depan</label>
+<input type="file" name="gambarDepan" id="gambarDepan" accept="image/*" capture="environment" required onchange="previewImage(this, 'previewDepan')" />
+<img id="previewDepan" class="preview" src="" alt="Preview Gambar Depan" />
+
+<label for="gambarSamping">Tampak Samping</label>
+<input type="file" name="gambarSamping" id="gambarSamping" accept="image/*" capture="environment" required onchange="previewImage(this, 'previewSamping')" />
+<img id="previewSamping" class="preview" src="" alt="Preview Gambar Samping" />
+
+<label for="gambarBelakang">Tampak Belakang</label>
+<input type="file" name="gambarBelakang" id="gambarBelakang" accept="image/*" capture="environment" required onchange="previewImage(this, 'previewBelakang')" />
+<img id="previewBelakang" class="preview" src="" alt="Preview Gambar Belakang" />
+
 
       <button type="submit">📦 Simpan Data</button>
     </form>
