@@ -202,9 +202,15 @@
     }
 
     window.addEventListener("load", () => {
-      fetchRiwayatGlobal();
-      updateConnectionStatus(navigator.onLine);
-    });
+  fetchRiwayatGlobal();
+  updateConnectionStatus(navigator.onLine);
+
+  const btnReload = document.getElementById("btnReloadRiwayat");
+  if (btnReload) {
+    btnReload.addEventListener("click", fetchRiwayatGlobal);
+  }
+});
+
     document.getElementById("btnReloadRiwayat").addEventListener("click", fetchRiwayatGlobal);
     window.addEventListener("online", () => updateConnectionStatus(true));
     window.addEventListener("offline", () => updateConnectionStatus(false));
