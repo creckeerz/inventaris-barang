@@ -1,3 +1,4 @@
+/* Dropdown Select - Seragam dengan input */
 select.form-control {
   width: 100%;
   padding: 0.75rem;
@@ -12,6 +13,7 @@ select.form-control {
   background-position: right 0.75rem center;
   background-size: 1.2rem;
   transition: all 0.2s ease-in-out;
+  padding-right: 2.5rem; /* ruang untuk ikon panah */
 }
 
 select.form-control:focus {
@@ -20,6 +22,7 @@ select.form-control:focus {
   outline: none;
 }
 
+/* Preview Gambar */
 .preview {
   margin-top: 0.5rem;
   max-height: 150px;
@@ -29,26 +32,30 @@ select.form-control:focus {
   object-fit: cover;
 }
 
-
-
-
+/* Koordinat & Tombol Lokasi */
 .location-group {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 5px;
 }
 
 .location-group input[type="text"] {
   flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
 }
 
 .location-group button {
   background-color: #e0e7ff;
   border: none;
   border-radius: 8px;
-  padding: 0.6rem 0.8rem;
+  padding: 0.75rem 1rem;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
   transition: background-color 0.2s ease;
 }
 
@@ -56,6 +63,7 @@ select.form-control:focus {
   background-color: #c7d2fe;
 }
 
+/* Deskripsi kecil */
 .info-text {
   font-size: 0.85rem;
   color: #555;
@@ -63,8 +71,7 @@ select.form-control:focus {
   display: block;
 }
 
-
-
+/* Form Layout */
 body {
   font-family: 'Segoe UI', sans-serif;
   background: #f3f4f6;
@@ -96,7 +103,9 @@ input, button {
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
 }
 
 button {
@@ -105,6 +114,11 @@ button {
   font-weight: bold;
   cursor: pointer;
   margin-top: 20px;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #1e40af;
 }
 
 #message {
@@ -113,22 +127,25 @@ button {
   font-weight: bold;
 }
 
+/* Status Koneksi */
 .status-indicator {
-  position: fixed;            /* Supaya mengambang */
+  position: fixed;
   top: 16px;
   right: 16px;
-  background-color: #d1fae5;  /* Warna hijau terang */
-  color: #065f46;             /* Warna teks hijau gelap */
+  background-color: #d1fae5;
+  color: #065f46;
   padding: 6px 12px;
   border-radius: 8px;
   font-weight: 600;
   font-size: 0.85rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  z-index: 9999;              /* Selalu di atas elemen lain */
-  pointer-events: none;       /* Tidak bisa diklik */
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.95;
+  transition: background-color 0.3s ease;
 }
 
 .status-indicator.offline {
-  background-color: #fee2e2;  /* Merah muda */
+  background-color: #fee2e2;
   color: #991b1b;
 }
