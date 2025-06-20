@@ -6,6 +6,11 @@ select.input {
   font-size: 1rem;
   background-color: #fff;
   transition: 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='292.4' height='292.4'%3E%3Cpath fill='%23666' d='M287 69.4c-7.6-7.6-20-7.6-27.6 0L146.2 182.7 32.9 69.4c-7.6-7.6-20-7.6-27.6 0s-7.6 20 0 27.6l134 134.1c7.6 7.6 20 7.6 27.6 0l134-134c7.7-7.6 7.7-20 0.1-27.6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.65rem auto;
 }
 
 select.input:focus {
