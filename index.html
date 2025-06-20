@@ -273,6 +273,27 @@
 </script>
 <div id="connectionStatusBox">🟢</div>
 
+  <script>
+  const statusBox = document.getElementById("connectionStatusBox");
+
+  function updateConnectionStatus(isOnline) {
+    if (isOnline) {
+      statusBox.textContent = "🟢 Koneksi Online";
+      statusBox.classList.remove("offline");
+    } else {
+      statusBox.textContent = "🔴 Koneksi Terputus";
+      statusBox.classList.add("offline");
+    }
+  }
+
+  // Set saat halaman dibuka
+  updateConnectionStatus(navigator.onLine);
+
+  // Update saat status koneksi berubah
+  window.addEventListener("online", () => updateConnectionStatus(true));
+  window.addEventListener("offline", () => updateConnectionStatus(false));
+</script>
+
 
 </body>
 </html>
