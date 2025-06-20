@@ -112,11 +112,13 @@
     const webAppUrl = "https://script.google.com/macros/s/AKfycbzUfjCebSw6hOxyKWcY_SuD1wj5AG0cPRjeg3Q_P5XuCfb6lIEhDybd6OHE8lnYcNpsIg/exec";
 
     function previewImage(input, imgId) {
-      const file = input.files[0];
-      if (!file) return;
-      new FileReader().onload = e => document.getElementById(imgId).src = e.target.result;
-      new FileReader().readAsDataURL(file);
-    }
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => document.getElementById(imgId).src = e.target.result;
+  reader.readAsDataURL(file);
+}
+
 
     function getLocation() {
       const input = document.getElementById("titikKoordinat");
@@ -164,11 +166,12 @@
         return;
       }
       status.textContent = "⏳ Mengirim...";
-      const toBase64 = file => new Promise(r => {
-        const fr = new FileReader();
-        fr.onload = () => r(fr.result);
-        fr.readAsDataURL(file);
-      });
+      const toBase64 = file => new Promise(resolve => {
+  if (!file) return resolve(""); // jika tidak ada file, kembalikan kosong
+  const reader = new FileReader();
+  reader.onload = () => resolve(reader.result);
+  reader.readAsDataURL(file);
+});
       const formData = new URLSearchParams({
         namaBPP: form.namaBPP.value,
         namaBarang: form.namaBarang.value,
