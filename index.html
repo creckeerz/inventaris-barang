@@ -275,13 +275,28 @@ formData.append("gambarBelakang", await toBase64(
         });
 
         const resultText = await res.text();
-        status.textContent = resultText.includes("success") ? "✅ Data berhasil disimpan" : "❌ Gagal menyimpan data";
-        if (resultText.includes("success")) form.reset();
-      } catch (err) {
-        status.textContent = "❌ Terjadi kesalahan: " + err.message;
-        console.error(err);
-      }
-    });
+status.textContent = resultText.includes("success") ? "✅ Data berhasil disimpan" : "❌ Gagal menyimpan data";
+
+if (resultText.includes("success")) {
+  form.reset();
+
+  // Kosongkan preview gambar
+  document.getElementById("previewDepan").src = "";
+  document.getElementById("previewSamping").src = "";
+  document.getElementById("previewBelakang").src = "";
+
+  // Kosongkan input file jika diperlukan (jika kamu pakai id khusus di input)
+  const fileInputs = [
+    "fileDepanKamera", "fileDepanGaleri",
+    "fileSampingKamera", "fileSampingGaleri",
+    "fileBelakangKamera", "fileBelakangGaleri"
+  ];
+
+  fileInputs.forEach(id => {
+    const input = document.getElementById(id);
+    if (input) input.value = "";
+  });
+}
 
     function getLocation() {
       const input = document.getElementById("titikKoordinat");
