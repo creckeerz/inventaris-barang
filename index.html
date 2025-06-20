@@ -98,12 +98,12 @@
       <label>Kondisi Barang</label>
       <input type="text" name="kondisiBarang" placeholder="Baik / Rusak Ringan / Rusak Berat" required />
 
-      <label>Titik Koordinat</label>
-<div style="display: flex; gap: 0.5rem;">
-  <input type="text" name="titikKoordinat" id="titikKoordinat" placeholder="-0.12345, 109.12345" required style="flex:1;" />
-  <button type="button" onclick="getLocation()" style="padding: 0.5rem;">📍</button>
+   <label>Titik Koordinat</label>
+<div class="location-group">
+  <input type="text" name="titikKoordinat" id="titikKoordinat" placeholder="-0.12345, 109.12345" required />
+  <button type="button" onclick="getLocation()" title="Gunakan Lokasi Saat Ini">📍</button>
 </div>
-<small>📍 Klik tombol untuk ambil lokasi otomatis</small>
+<small class="info-text">Klik tombol 📍 untuk mengisi lokasi otomatis</small>
 
 
       <label>Gambar Tampak Depan</label>
@@ -124,7 +124,7 @@
   </div>
 
   <script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbw8KE3VZsk9XR-0t4mPxyRQJ4VKYzTt_pAi1hgdeEXELuRE996gvDVJVCvOIGvfG35JHQ/exec";
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbwDuLgBn3N4kXxmW8fZCIgRiIBl3OsB4cm-EDQEvHyl6D-_wPZCOWkDIalxcKc1quEi2A/exec";
 
     function previewImage(input, imgId) {
       const file = input.files[0];
