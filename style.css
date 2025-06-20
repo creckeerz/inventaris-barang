@@ -1,25 +1,24 @@
-select.input {
+select.form-control {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
+  font-family: 'Inter', sans-serif;
   background-color: #fff;
-  transition: 0.2s;
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='292.4' height='292.4'%3E%3Cpath fill='%23666' d='M287 69.4c-7.6-7.6-20-7.6-27.6 0L146.2 182.7 32.9 69.4c-7.6-7.6-20-7.6-27.6 0s-7.6 20 0 27.6l134 134.1c7.6 7.6 20 7.6 27.6 0l134-134c7.7-7.6 7.7-20 0.1-27.6z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg fill='gray' height='24' viewBox='0 0 24 24' width='24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
-  background-size: 0.65rem auto;
+  background-size: 1.2rem;
+  transition: all 0.2s ease-in-out;
 }
 
-select.input:focus {
+select.form-control:focus {
   border-color: #4f46e5;
-  outline: none;
   box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+  outline: none;
 }
-
-
 
 .preview {
   margin-top: 0.5rem;
