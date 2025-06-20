@@ -99,7 +99,12 @@
       <input type="text" name="kondisiBarang" placeholder="Baik / Rusak Ringan / Rusak Berat" required />
 
       <label>Titik Koordinat</label>
-      <input type="text" name="titikKoordinat" placeholder="-0.12345, 109.12345" required />
+<div style="display: flex; gap: 0.5rem;">
+  <input type="text" name="titikKoordinat" id="titikKoordinat" placeholder="-0.12345, 109.12345" required style="flex:1;" />
+  <button type="button" onclick="getLocation()" style="padding: 0.5rem;">📍</button>
+</div>
+<small>📍 Klik tombol untuk ambil lokasi otomatis</small>
+
 
       <label>Gambar Tampak Depan</label>
       <input type="file" name="gambarDepan" accept="image/*" required onchange="previewImage(this, 'previewDepan')" />
