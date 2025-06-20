@@ -130,22 +130,23 @@ button:hover {
 /* Status Koneksi */
 .status-indicator {
   position: fixed;
-  top: 16px;
-  right: 16px;
+  bottom: 20px;
+  right: 20px;
   background-color: #d1fae5;
   color: #065f46;
   padding: 6px 12px;
   border-radius: 8px;
   font-weight: 600;
   font-size: 0.85rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   z-index: 9999;
   pointer-events: none;
   opacity: 0.95;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease-in-out;
 }
 
 .status-indicator.offline {
   background-color: #fee2e2;
   color: #991b1b;
 }
+
