@@ -1,4 +1,3 @@
-<!-- index.html (bisa dihosting di Vercel/GitHub Pages) -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,65 +6,73 @@
   <title>Form Inventaris Barang</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: Arial, sans-serif;
       background: #f0fdf4;
       padding: 20px;
     }
+    h2 {
+      text-align: center;
+      color: #065f46;
+    }
     form {
-      background: #fff;
+      background: white;
       padding: 20px;
       border-radius: 10px;
       max-width: 600px;
-      margin: auto;
+      margin: 0 auto;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     label {
       display: block;
-      margin-top: 15px;
+      margin-top: 10px;
       font-weight: bold;
+      color: #065f46;
     }
-    input[type="text"], input[type="number"], input[type="file"] {
+    input[type="text"],
+    input[type="number"],
+    input[type="file"] {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
-      border-radius: 5px;
       border: 1px solid #ccc;
+      border-radius: 6px;
     }
     button {
       margin-top: 20px;
-      background: #10b981;
+      background-color: #10b981;
       color: white;
+      padding: 10px;
       border: none;
-      padding: 10px 20px;
       border-radius: 6px;
       cursor: pointer;
     }
     #message {
-      margin-top: 20px;
-      font-weight: bold;
+      margin-top: 15px;
       text-align: center;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
+  <h2>Formulir Inventaris Barang</h2>
   <form id="formInventaris">
     <label for="namaBPP">Nama BPP</label>
-    <input type="text" id="namaBPP" required>
+    <input type="text" id="namaBPP" name="namaBPP" required>
 
     <label for="namaBarang">Nama Barang</label>
-    <input type="text" id="namaBarang" required>
+    <input type="text" id="namaBarang" name="namaBarang" required>
 
     <label for="tahunRilis">Tahun Rilis</label>
-    <input type="number" id="tahunRilis" required>
+    <input type="number" id="tahunRilis" name="tahunRilis" required>
 
     <label for="gambarDepan">Gambar Tampak Depan</label>
-    <input type="file" id="gambarDepan" accept="image/*" required>
+    <input type="file" id="gambarDepan" name="gambarDepan" accept="image/*" required>
 
     <label for="gambarSamping">Gambar Tampak Samping</label>
-    <input type="file" id="gambarSamping" accept="image/*" required>
+    <input type="file" id="gambarSamping" name="gambarSamping" accept="image/*" required>
 
     <label for="gambarBelakang">Gambar Tampak Belakang</label>
-    <input type="file" id="gambarBelakang" accept="image/*" required>
+    <input type="file" id="gambarBelakang" name="gambarBelakang" accept="image/*" required>
 
     <button type="submit">Kirim</button>
     <div id="message"></div>
@@ -95,11 +102,17 @@
       fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
         method: "POST",
         body: JSON.stringify(payload),
-        headers: { "Content-Type": "application/json" }
+        headers: {
+          "Content-Type": "application/json"
+        }
       })
-        .then(res => res.text())
-        .then(msg => document.getElementById("message").textContent = msg)
-        .catch(err => document.getElementById("message").textContent = "Gagal mengirim: " + err);
+      .then(res => res.text())
+      .then(msg => {
+        document.getElementById("message").textContent = msg;
+      })
+      .catch(err => {
+        document.getElementById("message").textContent = "\u274C Gagal mengirim: " + err.message;
+      });
     });
 
     function toBase64(file) {
