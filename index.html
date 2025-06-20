@@ -175,5 +175,43 @@
       }
     });
   </script>
+
+  <script>
+  function getLocation() {
+    const input = document.getElementById("titikKoordinat");
+    input.placeholder = "📡 Mendeteksi lokasi...";
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          const lat = position.coords.latitude.toFixed(6);
+          const lon = position.coords.longitude.toFixed(6);
+          input.value = `${lat}, ${lon}`;
+          input.placeholder = "-0.12345, 109.12345";
+        },
+        function (error) {
+          input.placeholder = "-0.12345, 109.12345";
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              alert("❌ Izin lokasi ditolak oleh pengguna.");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              alert("❌ Lokasi tidak tersedia.");
+              break;
+            case error.TIMEOUT:
+              alert("❌ Permintaan lokasi habis waktu.");
+              break;
+            default:
+              alert("❌ Gagal mendapatkan lokasi.");
+              break;
+          }
+        }
+      );
+    } else {
+      alert("❌ Browser tidak mendukung geolokasi.");
+    }
+  }
+</script>
+
 </body>
 </html>
