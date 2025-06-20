@@ -204,6 +204,7 @@
       fetchRiwayatGlobal();
       updateConnectionStatus(navigator.onLine);
     });
+    document.getElementById("btnReloadRiwayat").addEventListener("click", fetchRiwayatGlobal);
     window.addEventListener("online", () => updateConnectionStatus(true));
     window.addEventListener("offline", () => updateConnectionStatus(false));
   </script>
