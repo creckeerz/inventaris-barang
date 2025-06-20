@@ -1,3 +1,13 @@
+<style>
+  .preview {
+    margin-top: 10px;
+    max-height: 150px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+</style>
+
+
 body {
   font-family: 'Segoe UI', sans-serif;
   background: #f3f4f6;
