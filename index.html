@@ -176,17 +176,36 @@
       </div>
       <small class="info-text">📍 Klik tombol untuk ambil lokasi otomatis</small>
       
-     <label for="gambarDepan">Tampak Depan</label>
-<input type="file" name="gambarDepan" id="gambarDepan" accept="image/*" required onchange="previewImage(this, 'previewDepan')" />
+     <!-- Tampak Depan -->
+<label>Tampak Depan</label>
+<div class="location-group">
+  <input type="file" id="fileDepanKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewDepan')" />
+  <input type="file" id="fileDepanGaleri" accept="image/*" style="display:none" onchange="previewImage(this, 'previewDepan')" />
+  <button type="button" onclick="document.getElementById('fileDepanKamera').click()">📷 Ambil Foto</button>
+  <button type="button" onclick="document.getElementById('fileDepanGaleri').click()">🖼️ Pilih dari Galeri</button>
+</div>
 <img id="previewDepan" class="preview" src="" alt="Preview Gambar Depan" />
 
-<label for="gambarSamping">Tampak Samping</label>
-<input type="file" name="gambarSamping" id="gambarSamping" accept="image/*" required onchange="previewImage(this, 'previewSamping')" />
+<!-- Tampak Samping -->
+<label>Tampak Samping</label>
+<div class="location-group">
+  <input type="file" id="fileSampingKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewSamping')" />
+  <input type="file" id="fileSampingGaleri" accept="image/*" style="display:none" onchange="previewImage(this, 'previewSamping')" />
+  <button type="button" onclick="document.getElementById('fileSampingKamera').click()">📷 Ambil Foto</button>
+  <button type="button" onclick="document.getElementById('fileSampingGaleri').click()">🖼️ Pilih dari Galeri</button>
+</div>
 <img id="previewSamping" class="preview" src="" alt="Preview Gambar Samping" />
 
-<label for="gambarBelakang">Tampak Belakang</label>
-<input type="file" name="gambarBelakang" id="gambarBelakang" accept="image/*" required onchange="previewImage(this, 'previewBelakang')" />
+<!-- Tampak Belakang -->
+<label>Tampak Belakang</label>
+<div class="location-group">
+  <input type="file" id="fileBelakangKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewBelakang')" />
+  <input type="file" id="fileBelakangGaleri" accept="image/*" style="display:none" onchange="previewImage(this, 'previewBelakang')" />
+  <button type="button" onclick="document.getElementById('fileBelakangKamera').click()">📷 Ambil Foto</button>
+  <button type="button" onclick="document.getElementById('fileBelakangGaleri').click()">🖼️ Pilih dari Galeri</button>
+</div>
 <img id="previewBelakang" class="preview" src="" alt="Preview Gambar Belakang" />
+
 
 
       <button type="submit">📦 Simpan Data</button>
