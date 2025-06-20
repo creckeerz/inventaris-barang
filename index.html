@@ -1,284 +1,204 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventaris Barang BPP Kabupaten Sambas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inventaris Barang</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
+    * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: #f3f4f6; padding: 20px; display: flex; justify-content: center; }
+    .container { background: #fff; padding: 2rem; border-radius: 16px; box-shadow: 0 8px 16px rgba(0,0,0,0.05); max-width: 600px; width: 100%; }
+    h2, h3 { text-align: center; margin-bottom: 1rem; color: #1f2937; }
+    label { display: block; margin: 1rem 0 0.4rem; font-weight: 600; color: #333; }
+    input[type="text"], input[type="number"], input[type="file"], select.form-control {
+      width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; background: #fff; transition: .2s;
     }
-    body {
-      margin: 0;
-      background: #f3f4f6;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
+    input:focus, select.form-control:focus {
+      border-color: #4f46e5; box-shadow: 0 0 0 2px rgba(79,70,229,.2);
     }
-    .container {
-      background: white;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
-      max-width: 700px;
-      width: 100%;
+    select.form-control {
+      appearance: none;
+      background: url("data:image/svg+xml,%3Csvg fill='gray' height='24' viewBox='0 0 24 24' width='24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right .75rem center / 1.2rem;
     }
-    h2, h4 {
-      text-align: center;
-      color: #1f2937;
-    }
-    label {
-      margin-top: 1rem;
-      font-weight: 600;
-      display: block;
-    }
-    input, select, button {
-      font-size: 1rem;
-    }
-    input[type="text"], input[type="number"], select {
-      width: 100%;
-      padding: 0.75rem;
-      margin-top: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    .location-group, .foto-group {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
-    .location-group input {
-      flex: 1;
-    }
-    .preview {
-      margin-top: 0.5rem;
-      width: 100%;
-      max-height: 200px;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    button {
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-    }
-    button.submit {
-      width: 100%;
-      background-color: #4f46e5;
-      color: white;
-      font-weight: bold;
-      margin-top: 1.5rem;
-    }
-    button.submit:hover {
-      background-color: #4338ca;
-    }
-    .status {
-      text-align: center;
-      margin-top: 1rem;
-      font-weight: 500;
-    }
-    .log {
-      margin-top: 2rem;
-    }
-    .log ul {
-      list-style-type: disc;
-      padding-left: 1rem;
-    }
-    .log li {
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px dashed #ccc;
-    }
-    #connectionStatusBox {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 0.6rem 1rem;
-      background: #e5e7eb;
-      border-radius: 12px;
-      font-weight: bold;
-    }
-    #connectionStatusBox.offline {
-      background: #fee2e2;
-      color: #991b1b;
-    }
+    .preview {margin-top:.5rem;max-height:150px;border-radius:8px;border:1px solid #ccc;object-fit:cover;width:100%;}
+    .location-group { display:flex; align-items:center; gap:.5rem; }
+    .location-group button { background:#e0e7ff; border:none; border-radius:8px; padding:.6rem .8rem; cursor:pointer; transition:.2s; }
+    .location-group button:hover { background:#c7d2fe; }
+    .info-text { font-size:.85rem; color:#555; margin-top:.2rem; }
+    button[type="submit"] { margin-top:1.5rem; width:100%; padding:.9rem; background:#4f46e5; color:#fff; border:none; border-radius:8px; font-size:1rem; font-weight:600; cursor:pointer; transition:.2s; }
+    button[type="submit"]:hover { background:#4338ca; }
+    #status { margin-top:1rem; font-weight:500; text-align:center; }
+    #connectionStatusBox { position:fixed; bottom:16px; right:16px; background:#e5e7eb; color:#111827; font-size:.9rem; padding:.6rem 1rem; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.15); font-weight:600; transition:.3s; }
+    #connectionStatusBox.offline { background:#fee2e2; color:#991b1b; }
+    #logList { list-style:disc; padding-left:1.2rem; color:#333; }
+    #logList li { margin-bottom:1rem; border-bottom:1px dashed #ccc; padding-bottom:.5rem; }
   </style>
 </head>
 <body>
-<div class="container">
-  <h2>Form Inventaris Barang BPP</h2>
-  <h4>Bidang Penyuluhan Kab. Sambas</h4>
+  <div class="container">
+    <h2>Form Inventaris Barang BPP</h2>
+    <h3>Bidang Penyuluhan Kab. Sambas</h3>
 
-  <form id="form">
-    <label>Nama BPP</label>
-    <select id="namaBPP" required>
-      <option disabled selected>-- Pilih BPP --</option>
-      <option>BPP Selakau</option>
-      <option>BPP Selakau Timur</option>
-      <option>BPP Salatiga</option>
-      <option>BPP Pemangkat</option>
-      <option>BPP Semparuk</option>
-      <option>BPP Tebas</option>
-      <option>BPP Tekarang</option>
-      <option>BPP Jawai</option>
-      <option>BPP Jawai Selatan</option>
-      <option>BPP Sebawi</option>
-      <option>BPP Sambas</option>
-      <option>BPP Subah</option>
-      <option>BPP Sejangkung</option>
-      <option>BPP Sajad</option>
-      <option>BPP Galing</option>
-      <option>BPP Sajingan Besar</option>
-      <option>BPP Teluk Keramat</option>
-      <option>BPP Tangaran</option>
-      <option>BPP Paloh</option>
-    </select>
+    <form id="inventarisForm">
+      <label>Nama BPP</label>
+      <select name="namaBPP" class="form-control" required>
+        <option value="" disabled selected>-- Pilih BPP --</option>
+        <option>BPP Selakau</option><option>BPP Selakau Timur</option><option>BPP Salatiga</option><option>BPP Pemangkat</option>
+        <option>BPP Semparuk</option><option>BPP Tebas</option><option>BPP Tekarang</option><option>BPP Jawai</option>
+        <option>BPP Jawai Selatan</option><option>BPP Sebawi</option><option>BPP Sambas</option><option>BPP Subah</option>
+        <option>BPP Sejangkung</option><option>BPP Sajad</option><option>BPP Galing</option><option>BPP Sajingan Besar</option>
+        <option>BPP Teluk Keramat</option><option>BPP Tangaran</option><option>BPP Paloh</option>
+      </select>
 
-    <label>Nama Barang</label>
-    <input type="text" id="namaBarang" required />
+      <label>Nama Barang</label>
+      <input type="text" name="namaBarang" required />
 
-    <label>Tahun Rilis</label>
-    <input type="text" id="tahunRilis" placeholder="Contoh: 2020" required />
+      <label>Tahun Rilis</label>
+      <input type="text" name="tahunRilis" required />
 
-    <label>Kondisi Barang</label>
-    <input type="text" id="kondisiBarang" placeholder="Baik / Rusak Ringan / Rusak Berat" required />
+      <label>Kondisi Barang</label>
+      <input type="text" name="kondisiBarang" required />
 
-    <label>Titik Koordinat</label>
-    <div class="location-group">
-      <input type="text" id="titikKoordinat" required placeholder="-0.123456, 109.123456" />
-      <button type="button" onclick="getLocation()">📍</button>
+      <label>Titik Koordinat</label>
+      <div class="location-group">
+        <input type="text" name="titikKoordinat" id="titikKoordinat" required />
+        <button type="button" onclick="getLocation()">📍</button>
+      </div>
+      <small class="info-text">📍 Klik tombol untuk ambil lokasi otomatis</small>
+
+      <label>Tampak Depan</label>
+      <div class="location-group">
+        <input type="file" id="fileDepanKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this,'previewDepan')" />
+        <input type="file" id="fileDepanGaleri" accept="image/*" style="display:none" onchange="previewImage(this,'previewDepan')" />
+        <button type="button" onclick="document.getElementById('fileDepanKamera').click()">📷 Ambil Foto</button>
+        <button type="button" onclick="document.getElementById('fileDepanGaleri').click()">🖼️ Pilih dari Galeri</button>
+      </div>
+      <img id="previewDepan" class="preview" />
+
+      <label>Tampak Samping</label>
+      <div class="location-group">
+        <input type="file" id="fileSampingKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this,'previewSamping')" />
+        <input type="file" id="fileSampingGaleri" accept="image/*" style="display:none" onchange="previewImage(this,'previewSamping')" />
+        <button type="button" onclick="document.getElementById('fileSampingKamera').click()">📷 Ambil Foto</button>
+        <button type="button" onclick="document.getElementById('fileSampingGaleri').click()">🖼️ Pilih dari Galeri</button>
+      </div>
+      <img id="previewSamping" class="preview" />
+
+      <label>Tampak Belakang</label>
+      <div class="location-group">
+        <input type="file" id="fileBelakangKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this,'previewBelakang')" />
+        <input type="file" id="fileBelakangGaleri" accept="image/*" style="display:none" onchange="previewImage(this,'previewBelakang')" />
+        <button type="button" onclick="document.getElementById('fileBelakangKamera').click()">📷 Ambil Foto</button>
+        <button type="button" onclick="document.getElementById('fileBelakangGaleri').click()">🖼️ Pilih dari Galeri</button>
+      </div>
+      <img id="previewBelakang" class="preview" />
+
+      <button type="submit">📦 Simpan Data</button>
+    </form>
+
+    <p id="status"></p>
+
+    <div id="logAktivitas">
+      <h3>📋 Riwayat Input</h3>
+      <ul id="logList"></ul>
     </div>
 
-    <label>Gambar Depan</label>
-    <div class="foto-group">
-      <input type="file" id="fotoDepan" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewDepan')">
-      <button type="button" onclick="document.getElementById('fotoDepan').click()">📷 Ambil Foto</button>
-    </div>
-    <img class="preview" id="previewDepan" src="" />
-
-    <label>Gambar Samping</label>
-    <div class="foto-group">
-      <input type="file" id="fotoSamping" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewSamping')">
-      <button type="button" onclick="document.getElementById('fotoSamping').click()">📷 Ambil Foto</button>
-    </div>
-    <img class="preview" id="previewSamping" src="" />
-
-    <label>Gambar Belakang</label>
-    <div class="foto-group">
-      <input type="file" id="fotoBelakang" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewBelakang')">
-      <button type="button" onclick="document.getElementById('fotoBelakang').click()">📷 Ambil Foto</button>
-    </div>
-    <img class="preview" id="previewBelakang" src="" />
-
-    <button type="submit" class="submit">📦 Simpan Data</button>
-  </form>
-
-  <div class="status" id="status"></div>
-
-  <div class="log">
-    <h3>📋 Riwayat Input (Global)</h3>
-    <ul id="logList"></ul>
   </div>
-</div>
 
-<div id="connectionStatusBox">📶 Online</div>
+  <div id="connectionStatusBox">📶 Online</div>
 
-<script>
-const webAppUrl = "https://script.google.com/macros/s/AKfycbzEYC1s2U6pgAmYJbAKtKzZ8S8hqHeLLRT_rPfKnOdgcXOWKPfEtWggBsDsM7cz5pLQWA/exec";
+  <script>
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbzEYC1s2U6pgAmYJbAKtKzZ8S8hqHeLLRT_rPfKnOdgcXOWKPfEtWggBsDsM7cz5pLQWA/exec";
 
-function previewImage(input, targetId) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => document.getElementById(targetId).src = e.target.result;
-  reader.readAsDataURL(file);
-}
+    function previewImage(input, imgId) {
+      const file = input.files[0];
+      if (!file) return;
+      new FileReader().onload = e => document.getElementById(imgId).src = e.target.result;
+      new FileReader().readAsDataURL(file);
+    }
 
-function getLocation() {
-  const input = document.getElementById("titikKoordinat");
-  input.placeholder = "📡 Mengambil lokasi...";
-  navigator.geolocation.getCurrentPosition(pos => {
-    const lat = pos.coords.latitude.toFixed(6);
-    const lon = pos.coords.longitude.toFixed(6);
-    input.value = `${lat}, ${lon}`;
-    input.placeholder = "-0.123456, 109.123456";
-  }, err => {
-    alert("❌ Gagal mendapatkan lokasi: " + err.message);
-  });
-}
+    function getLocation() {
+      const input = document.getElementById("titikKoordinat");
+      input.placeholder = "📡 Mendeteksi lokasi...";
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          input.value = pos.coords.latitude.toFixed(6) + ", " + pos.coords.longitude.toFixed(6);
+          input.placeholder = "";
+        },
+        err => {
+          input.placeholder = "-0.12345, 109.12345";
+          alert("Gagal mendapatkan lokasi: " + err.message);
+        }
+      );
+    }
 
-function updateConnectionStatus(online) {
-  const box = document.getElementById("connectionStatusBox");
-  box.textContent = online ? "📶 Online" : "📴 Offline - Data Disimpan Lokal";
-  box.classList.toggle("offline", !online);
-}
+    function tampilkanLog(logs) {
+      const ul = document.getElementById("logList");
+      ul.innerHTML = logs.length
+        ? ""
+        : "<li>Tidak ada data yang tersimpan.</li>";
+      logs.reverse().forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${item["Nama Barang"]}</strong> (${item["Nama BPP"]})<br/>Tahun: ${item["Tahun Rilis"]}, Kondisi: ${item["Kondisi Barang"]}<br/>Lokasi: ${item["Titik Koordinat"]}<br/><small>🕒 ${item["Timestamp"]}</small>`;
+        ul.appendChild(li);
+      });
+    }
 
-window.addEventListener("online", () => updateConnectionStatus(true));
-window.addEventListener("offline", () => updateConnectionStatus(false));
-updateConnectionStatus(navigator.onLine);
+    async function fetchRiwayatGlobal() {
+      try {
+        const res = await fetch(webAppUrl);
+        const data = await res.json();
+        tampilkanLog(data);
+      } catch (err) {
+        document.getElementById("logList").innerHTML = "<li>Gagal memuat riwayat</li>";
+      }
+    }
 
-function tampilkanLog() {
-  fetch(`${webAppUrl}?action=read`)
-    .then(res => res.json())
-    .then(data => {
-      const list = document.getElementById("logList");
-      list.innerHTML = "";
-      if (!data.length) {
-        list.innerHTML = "<li>Tidak ada data.</li>";
+    document.getElementById("inventarisForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const form = e.target;
+      const status = document.getElementById("status");
+      if (!navigator.onLine) {
+        status.textContent = "📴 Offline, data tidak terkirim.";
         return;
       }
-      data.reverse().forEach(item => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <strong>${item.namaBarang}</strong> (${item.namaBPP})<br>
-          Tahun: ${item.tahunRilis}, Kondisi: ${item.kondisiBarang}<br>
-          Lokasi: ${item.titikKoordinat}<br>
-          <small>${item.timestamp}</small>
-        `;
-        list.appendChild(li);
+      status.textContent = "⏳ Mengirim...";
+      const toBase64 = file => new Promise(r => {
+        const fr = new FileReader();
+        fr.onload = () => r(fr.result);
+        fr.readAsDataURL(file);
       });
+      const formData = new URLSearchParams({
+        namaBPP: form.namaBPP.value,
+        namaBarang: form.namaBarang.value,
+        tahunRilis: form.tahunRilis.value,
+        kondisiBarang: form.kondisiBarang.value,
+        titikKoordinat: form.titikKoordinat.value,
+        gambarDepan: await toBase64(document.getElementById("fileDepanKamera").files[0] || document.getElementById("fileDepanGaleri").files[0] || new Blob()),
+        gambarSamping: await toBase64(document.getElementById("fileSampingKamera").files[0] || document.getElementById("fileSampingGaleri").files[0] || new Blob()),
+        gambarBelakang: await toBase64(document.getElementById("fileBelakangKamera").files[0] || document.getElementById("fileBelakangGaleri").files[0] || new Blob())
+      });
+      const res = await fetch(webAppUrl, { method: "POST", body: formData });
+      const txt = await res.text();
+      status.textContent = txt.includes("success") ? "✅ Data berhasil disimpan" : "❌ Gagal menyimpan";
+      fetchRiwayatGlobal();
+      form.reset();
+      ["previewDepan","previewSamping","previewBelakang"].forEach(id => document.getElementById(id).src = "");
     });
-}
 
-document.getElementById("form").addEventListener("submit", async e => {
-  e.preventDefault();
-  const status = document.getElementById("status");
-  status.textContent = "⏳ Mengirim...";
+    function updateConnectionStatus(online) {
+      const box = document.getElementById("connectionStatusBox");
+      box.textContent = online ? "📶 Online" : "📴 Offline";
+      box.classList.toggle("offline", !online);
+    }
 
-  const toBase64 = file => new Promise((res, rej) => {
-    const reader = new FileReader();
-    reader.onload = () => res(reader.result);
-    reader.onerror = rej;
-    reader.readAsDataURL(file);
-  });
-
-  try {
-    const fd = new FormData();
-    fd.append("namaBPP", document.getElementById("namaBPP").value);
-    fd.append("namaBarang", document.getElementById("namaBarang").value);
-    fd.append("tahunRilis", document.getElementById("tahunRilis").value);
-    fd.append("kondisiBarang", document.getElementById("kondisiBarang").value);
-    fd.append("titikKoordinat", document.getElementById("titikKoordinat").value);
-    fd.append("gambarDepan", await toBase64(document.getElementById("fotoDepan").files[0]));
-    fd.append("gambarSamping", await toBase64(document.getElementById("fotoSamping").files[0]));
-    fd.append("gambarBelakang", await toBase64(document.getElementById("fotoBelakang").files[0]));
-
-    const res = await fetch(webAppUrl, { method: "POST", body: fd });
-    const result = await res.text();
-    status.textContent = result.includes("success") ? "✅ Berhasil disimpan" : "❌ Gagal simpan";
-    tampilkanLog();
-    document.getElementById("form").reset();
-    ["previewDepan", "previewSamping", "previewBelakang"].forEach(id => document.getElementById(id).src = "");
-  } catch (err) {
-    status.textContent = "❌ Error: " + err.message;
-  }
-});
-
-window.addEventListener("load", tampilkanLog);
-</script>
+    window.addEventListener("load", () => {
+      fetchRiwayatGlobal();
+      updateConnectionStatus(navigator.onLine);
+    });
+    window.addEventListener("online", () => updateConnectionStatus(true));
+    window.addEventListener("offline", () => updateConnectionStatus(false));
+  </script>
 </body>
 </html>
