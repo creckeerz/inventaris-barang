@@ -88,14 +88,18 @@
       <label>Tahun Rilis</label>
       <input type="number" name="tahunRilis" required />
 
-      <label>Gambar Tampak Depan</label>
-      <input type="file" name="gambarDepan" accept="image/*" required />
+     <label>Gambar Tampak Depan</label>
+<input type="file" name="gambarDepan" accept="image/*" required onchange="previewImage(this, 'previewDepan')" />
+<img id="previewDepan" class="preview" />
 
-      <label>Gambar Tampak Samping</label>
-      <input type="file" name="gambarSamping" accept="image/*" required />
+<label>Gambar Tampak Samping</label>
+<input type="file" name="gambarSamping" accept="image/*" required onchange="previewImage(this, 'previewSamping')" />
+<img id="previewSamping" class="preview" />
 
-      <label>Gambar Tampak Belakang</label>
-      <input type="file" name="gambarBelakang" accept="image/*" required />
+<label>Gambar Tampak Belakang</label>
+<input type="file" name="gambarBelakang" accept="image/*" required onchange="previewImage(this, 'previewBelakang')" />
+<img id="previewBelakang" class="preview" />
+
 
       <button type="submit">📦 Simpan Data</button>
     </form>
