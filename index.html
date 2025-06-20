@@ -52,6 +52,13 @@
       outline: none;
       box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
     }
+    .preview {
+      margin-top: 0.5rem;
+      max-height: 120px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      display: block;
+    }
     button {
       margin-top: 1.5rem;
       width: 100%;
@@ -89,68 +96,79 @@
       <input type="number" name="tahunRilis" required />
 
       <label>Kondisi Barang</label>
-<input type="text" name="kondisiBarang" required />
+      <input type="text" name="kondisiBarang" placeholder="Baik / Rusak Ringan / Rusak Berat" required />
 
-<label>Titik Koordinat</label>
-<input type="text" name="titikKoordinat" placeholder="-0.132312, 109.3213" required />
+      <label>Titik Koordinat</label>
+      <input type="text" name="titikKoordinat" placeholder="-0.12345, 109.12345" required />
 
-     <label>Gambar Tampak Depan</label>
-<input type="file" name="gambarDepan" accept="image/*" required onchange="previewImage(this, 'previewDepan')" />
-<img id="previewDepan" class="preview" />
+      <label>Gambar Tampak Depan</label>
+      <input type="file" name="gambarDepan" accept="image/*" required onchange="previewImage(this, 'previewDepan')" />
+      <img id="previewDepan" class="preview" />
 
-<label>Gambar Tampak Samping</label>
-<input type="file" name="gambarSamping" accept="image/*" required onchange="previewImage(this, 'previewSamping')" />
-<img id="previewSamping" class="preview" />
+      <label>Gambar Tampak Samping</label>
+      <input type="file" name="gambarSamping" accept="image/*" required onchange="previewImage(this, 'previewSamping')" />
+      <img id="previewSamping" class="preview" />
 
-<label>Gambar Tampak Belakang</label>
-<input type="file" name="gambarBelakang" accept="image/*" required onchange="previewImage(this, 'previewBelakang')" />
-<img id="previewBelakang" class="preview" />
-
+      <label>Gambar Tampak Belakang</label>
+      <input type="file" name="gambarBelakang" accept="image/*" required onchange="previewImage(this, 'previewBelakang')" />
+      <img id="previewBelakang" class="preview" />
 
       <button type="submit">📦 Simpan Data</button>
     </form>
     <p id="status"></p>
   </div>
 
- <script>
-  const webAppUrl = "https://script.google.com/macros/s/AKfycbw8KE3VZsk9XR-0t4mPxyRQJ4VKYzTt_pAi1hgdeEXELuRE996gvDVJVCvOIGvfG35JHQ/exec";
+  <script>
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbw8KE3VZsk9XR-0t4mPxyRQJ4VKYzTt_pAi1hgdeEXELuRE996gvDVJVCvOIGvfG35JHQ/exec";
 
-  document.getElementById('inventarisForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const form = e.target;
-    const status = document.getElementById("status");
-    status.textContent = "⏳ Mengirim data...";
-
-    const toBase64 = file => new Promise((resolve, reject) => {
+    function previewImage(input, imgId) {
+      const file = input.files[0];
       const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById(imgId).src = e.target.result;
+      };
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-    });
+    }
 
-    try {
-      const formData = new URLSearchParams();
-      formData.append("namaBPP", form.namaBPP.value);
-      formData.append("namaBarang", form.namaBarang.value);
-      formData.append("tahunRilis", form.tahunRilis.value);
-      formData.append("gambarDepan", await toBase64(form.gambarDepan.files[0]));
-      formData.append("gambarSamping", await toBase64(form.gambarSamping.files[0]));
-      formData.append("gambarBelakang", await toBase64(form.gambarBelakang.files[0]));
+    document.getElementById('inventarisForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const status = document.getElementById("status");
+      status.textContent = "⏳ Mengirim data...";
 
-      const res = await fetch(webAppUrl, {
-        method: "POST",
-        body: formData,
+      const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
       });
 
-      const resultText = await res.text();
-      status.textContent = resultText.includes("success") ? "✅ Data berhasil disimpan" : "❌ Gagal menyimpan data";
-      form.reset();
-    } catch (err) {
-      status.textContent = "❌ Terjadi kesalahan: " + err.message;
-      console.error(err);
-    }
-  });
-</script>
+      try {
+        const formData = new URLSearchParams();
+        formData.append("namaBPP", form.namaBPP.value);
+        formData.append("namaBarang", form.namaBarang.value);
+        formData.append("tahunRilis", form.tahunRilis.value);
+        formData.append("kondisiBarang", form.kondisiBarang.value);
+        formData.append("titikKoordinat", form.titikKoordinat.value);
+        formData.append("gambarDepan", await toBase64(form.gambarDepan.files[0]));
+        formData.append("gambarSamping", await toBase64(form.gambarSamping.files[0]));
+        formData.append("gambarBelakang", await toBase64(form.gambarBelakang.files[0]));
 
+        const res = await fetch(webAppUrl, {
+          method: "POST",
+          body: formData,
+        });
+
+        const resultText = await res.text();
+        status.textContent = resultText.includes("success")
+          ? "✅ Data berhasil disimpan"
+          : "❌ Gagal menyimpan data";
+        if (resultText.includes("success")) form.reset();
+      } catch (err) {
+        status.textContent = "❌ Terjadi kesalahan: " + err.message;
+        console.error(err);
+      }
+    });
+  </script>
 </body>
 </html>
