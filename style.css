@@ -29,14 +29,7 @@ select.form-control:focus {
   object-fit: cover;
 }
 
-<style>
-  .preview {
-    margin-top: 10px;
-    max-height: 150px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-  }
-</style>
+
 
 
 .location-group {
