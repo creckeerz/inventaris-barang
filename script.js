@@ -20,15 +20,13 @@ document.getElementById("formInventaris").addEventListener("submit", async funct
   };
 
   fetch("https://script.google.com/macros/s/AKfycbw7jzLT0EZV2FxWnrkaGmrsvzwXCP_-DDWQxbj8IxUcHFRuS6zyYVD7S6POfmrWQFBmow/exec", {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Gagal mengirim data: " + err));
+  method: "POST",
+  body: JSON.stringify({ test: "ok" }),
+  headers: { "Content-Type": "application/json" }
+})
+.then(res => res.text())
+.then(console.log)
+.catch(console.error);
 });
 
 function toBase64(file) {
