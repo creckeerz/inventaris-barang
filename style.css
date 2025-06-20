@@ -112,3 +112,24 @@ button {
   text-align: center;
   font-weight: bold;
 }
+
+
+.status-indicator {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.status-indicator.offline {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
