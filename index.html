@@ -253,9 +253,21 @@
         formData.append("tahunRilis", form.tahunRilis.value);
         formData.append("kondisiBarang", form.kondisiBarang.value);
         formData.append("titikKoordinat", form.titikKoordinat.value);
-        formData.append("gambarDepan", await toBase64(form.gambarDepan.files[0]));
-        formData.append("gambarSamping", await toBase64(form.gambarSamping.files[0]));
-        formData.append("gambarBelakang", await toBase64(form.gambarBelakang.files[0]));
+        formData.append("gambarDepan", await toBase64(
+  document.getElementById('fileDepanKamera').files[0] || 
+  document.getElementById('fileDepanGaleri').files[0]
+));
+
+formData.append("gambarSamping", await toBase64(
+  document.getElementById('fileSampingKamera').files[0] || 
+  document.getElementById('fileSampingGaleri').files[0]
+));
+
+formData.append("gambarBelakang", await toBase64(
+  document.getElementById('fileBelakangKamera').files[0] || 
+  document.getElementById('fileBelakangGaleri').files[0]
+));
+
 
         const res = await fetch(webAppUrl, {
           method: "POST",
