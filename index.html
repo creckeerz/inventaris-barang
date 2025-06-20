@@ -1,149 +1,80 @@
+<!-- index.html (bisa dihosting di Vercel/GitHub Pages) -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Input Inventaris Barang</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Inventaris Barang</title>
   <style>
     body {
-      font-family: 'Inter', sans-serif;
-      background: #f0f4f8;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0fdf4;
+      padding: 20px;
     }
-
-    .container {
+    form {
       background: #fff;
+      padding: 20px;
+      border-radius: 10px;
       max-width: 600px;
-      width: 100%;
-      padding: 30px;
-      margin: 40px 20px;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
-    h2 {
-      text-align: center;
-      color: #1e3a8a;
-      margin-bottom: 24px;
-    }
-
     label {
-      font-weight: 600;
       display: block;
-      margin-top: 16px;
-      color: #374151;
+      margin-top: 15px;
+      font-weight: bold;
     }
-
-    input[type="text"],
-    input[type="number"],
-    input[type="file"] {
+    input[type="text"], input[type="number"], input[type="file"] {
       width: 100%;
-      padding: 12px;
-      margin-top: 6px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 15px;
-      background: #f9fafb;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
-
     button {
-      margin-top: 24px;
-      width: 100%;
-      padding: 12px;
-      background-color: #2563eb;
-      color: #fff;
+      margin-top: 20px;
+      background: #10b981;
+      color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 6px;
       cursor: pointer;
-      transition: background 0.3s ease;
     }
-
-    button:hover {
-      background-color: #1d4ed8;
-    }
-
-    .preview-img {
-      margin-top: 8px;
-      max-height: 100px;
-      display: block;
-    }
-
     #message {
       margin-top: 20px;
-      text-align: center;
       font-weight: bold;
-      color: green;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Form Inventaris Barang</h2>
+  <form id="formInventaris">
+    <label for="namaBPP">Nama BPP</label>
+    <input type="text" id="namaBPP" required>
 
-    <form id="formInventaris">
-      <label for="namaBPP">Nama BPP</label>
-      <input type="text" id="namaBPP" required>
+    <label for="namaBarang">Nama Barang</label>
+    <input type="text" id="namaBarang" required>
 
-      <label for="namaBarang">Nama Barang</label>
-      <input type="text" id="namaBarang" required>
+    <label for="tahunRilis">Tahun Rilis</label>
+    <input type="number" id="tahunRilis" required>
 
-      <label for="tahunRilis">Tahun Rilis</label>
-      <input type="number" id="tahunRilis" required>
+    <label for="gambarDepan">Gambar Tampak Depan</label>
+    <input type="file" id="gambarDepan" accept="image/*" required>
 
-      <label for="gambarDepan">Gambar Tampak Depan</label>
-      <input type="file" id="gambarDepan" accept="image/*" required>
-      <img id="previewDepan" class="preview-img" hidden>
+    <label for="gambarSamping">Gambar Tampak Samping</label>
+    <input type="file" id="gambarSamping" accept="image/*" required>
 
-      <label for="gambarSamping">Gambar Tampak Samping</label>
-      <input type="file" id="gambarSamping" accept="image/*" required>
-      <img id="previewSamping" class="preview-img" hidden>
+    <label for="gambarBelakang">Gambar Tampak Belakang</label>
+    <input type="file" id="gambarBelakang" accept="image/*" required>
 
-      <label for="gambarBelakang">Gambar Tampak Belakang</label>
-      <input type="file" id="gambarBelakang" accept="image/*" required>
-      <img id="previewBelakang" class="preview-img" hidden>
-
-      <button type="submit">Kirim Data</button>
-    </form>
-
+    <button type="submit">Kirim</button>
     <div id="message"></div>
-  </div>
+  </form>
 
   <script>
-    // Preview Gambar
-    function previewImage(input, previewId) {
-      const file = input.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const img = document.getElementById(previewId);
-          img.src = e.target.result;
-          img.hidden = false;
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-
-    document.getElementById("gambarDepan").addEventListener("change", function () {
-      previewImage(this, "previewDepan");
-    });
-
-    document.getElementById("gambarSamping").addEventListener("change", function () {
-      previewImage(this, "previewSamping");
-    });
-
-    document.getElementById("gambarBelakang").addEventListener("change", function () {
-      previewImage(this, "previewBelakang");
-    });
-
-    // Kirim data
     document.getElementById("formInventaris").addEventListener("submit", async function (e) {
       e.preventDefault();
+
       const namaBPP = document.getElementById("namaBPP").value;
       const namaBarang = document.getElementById("namaBarang").value;
       const tahunRilis = document.getElementById("tahunRilis").value;
@@ -156,28 +87,19 @@
         namaBPP,
         namaBarang,
         tahunRilis,
-        gambarDepan: gambarDepan.replace(/^data:image\/(png|jpeg);base64,/, ""),
-        gambarSamping: gambarSamping.replace(/^data:image\/(png|jpeg);base64,/, ""),
-        gambarBelakang: gambarBelakang.replace(/^data:image\/(png|jpeg);base64,/, "")
+        gambarDepan: gambarDepan.replace(/^data:image\/\w+;base64,/, ""),
+        gambarSamping: gambarSamping.replace(/^data:image\/\w+;base64,/, ""),
+        gambarBelakang: gambarBelakang.replace(/^data:image\/\w+;base64,/, "")
       };
 
-      fetch("https://script.google.com/macros/s/AKfycbw7jzLT0EZV2FxWnrkaGmrsvzwXCP_-DDWQxbj8IxUcHFRuS6zyYVD7S6POfmrWQFBmow/exec", {
+      fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
         method: "POST",
         body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json"
-        }
+        headers: { "Content-Type": "application/json" }
       })
-      .then(res => res.text())
-      .then(msg => {
-        document.getElementById("message").textContent = msg;
-        document.getElementById("formInventaris").reset();
-        document.querySelectorAll(".preview-img").forEach(img => img.hidden = true);
-      })
-      .catch(err => {
-        document.getElementById("message").textContent = "❌ Gagal mengirim data.";
-        console.error(err);
-      });
+        .then(res => res.text())
+        .then(msg => document.getElementById("message").textContent = msg)
+        .catch(err => document.getElementById("message").textContent = "Gagal mengirim: " + err);
     });
 
     function toBase64(file) {
