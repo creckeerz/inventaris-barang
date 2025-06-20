@@ -5,23 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Form Inventaris Barang</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: auto;
-      padding: 1rem;
-    }
-    label { display: block; margin-top: 10px; }
-    input[type="text"], input[type="number"] {
-      width: 100%; padding: 8px;
-    }
-    input[type="file"] {
-      margin-top: 5px;
-    }
-    button {
-      margin-top: 15px;
-      padding: 10px 20px;
-    }
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 1rem; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input[type="text"], input[type="number"] { width: 100%; padding: 8px; margin-top: 5px; }
+    input[type="file"] { margin-top: 5px; }
+    button { margin-top: 15px; padding: 10px 20px; }
+    #status { margin-top: 20px; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -51,6 +40,8 @@
   <p id="status"></p>
 
   <script>
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbw7CE82f-HkMaAu23H7uFJ4iT8501sPHvikggdE5xlY6A728CaftPAs8g__r4dI1JZUxA/exec"; // Ganti dengan URL Web App kamu
+
     document.getElementById('inventarisForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const form = e.target;
@@ -63,31 +54,30 @@
         reader.onerror = reject;
       });
 
-      const data = {
-        namaBPP: form.namaBPP.value,
-        namaBarang: form.namaBarang.value,
-        tahunRilis: form.tahunRilis.value,
-        gambarDepan: await toBase64(form.gambarDepan.files[0]),
-        gambarSamping: await toBase64(form.gambarSamping.files[0]),
-        gambarBelakang: await toBase64(form.gambarBelakang.files[0]),
-      };
+      try {
+        const data = {
+          namaBPP: form.namaBPP.value,
+          namaBarang: form.namaBarang.value,
+          tahunRilis: form.tahunRilis.value,
+          gambarDepan: await toBase64(form.gambarDepan.files[0]),
+          gambarSamping: await toBase64(form.gambarSamping.files[0]),
+          gambarBelakang: await toBase64(form.gambarBelakang.files[0])
+        };
 
-      fetch("https://script.google.com/macros/s/AKfycbyqjas8tE_GcHzs0I2msG9OhDmfhU_62yeoGWnz5-pG1Y79Vbqwhsy6vpzdB0JNFaGTzg/exec", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(res => res.json())
-      .then(res => {
-        status.innerText = "✅ " + res.message;
-        form.reset();
-      })
-      .catch(err => {
-        status.innerText = "❌ Gagal menyimpan data.";
-        console.error(err);
-      });
+        const res = await fetch(webAppUrl, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const result = await res.json();
+        status.textContent = result.status === "success" ? "✅ " + result.message : "❌ " + result.message;
+        if (result.status === "success") form.reset();
+      } catch (err) {
+        status.textContent = "❌ Terjadi kesalahan: " + err.message;
+      }
     });
   </script>
 </body>
