@@ -305,6 +305,7 @@
       status.textContent = "⏳ Mengirim data...";
 
       const toBase64 = file => new Promise((resolve, reject) => {
+        if (!file) return resolve("");
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => resolve(reader.result);
