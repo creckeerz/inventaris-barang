@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inventaris Barang</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventaris Barang BPP Kabupaten Sambas</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -11,407 +11,274 @@
       font-family: 'Inter', sans-serif;
     }
     body {
+      margin: 0;
       background: #f3f4f6;
       padding: 20px;
       display: flex;
       justify-content: center;
     }
     .container {
-      background: #ffffff;
+      background: white;
       padding: 2rem;
       border-radius: 16px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.05);
-      max-width: 600px;
+      max-width: 700px;
       width: 100%;
     }
-    h2, h3 {
+    h2, h4 {
       text-align: center;
-      margin-bottom: 1rem;
       color: #1f2937;
     }
     label {
-      display: block;
-      margin: 1rem 0 0.4rem;
+      margin-top: 1rem;
       font-weight: 600;
-      color: #333;
+      display: block;
     }
-    input[type="text"],
-    input[type="number"],
-    input[type="file"],
-    select.form-control {
+    input, select, button {
+      font-size: 1rem;
+    }
+    input[type="text"], input[type="number"], select {
       width: 100%;
       padding: 0.75rem;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-      background-color: #fff;
-      transition: 0.2s;
-    }
-    input:focus,
-    select.form-control:focus {
-      border-color: #4f46e5;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
-    }
-    select.form-control {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg fill='gray' height='24' viewBox='0 0 24 24' width='24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.75rem center;
-      background-size: 1.2rem;
-    }
-    .preview {
       margin-top: 0.5rem;
-      max-height: 150px;
-      border-radius: 8px;
       border: 1px solid #ccc;
-      display: block;
-      object-fit: cover;
+      border-radius: 8px;
     }
-    .location-group {
+    .location-group, .foto-group {
       display: flex;
-      align-items: center;
       gap: 0.5rem;
+      margin-top: 0.5rem;
     }
     .location-group input {
       flex: 1;
     }
-    .location-group button {
-      background-color: #e0e7ff;
-      border: none;
-      border-radius: 8px;
-      padding: 0.6rem 0.8rem;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.2s ease;
-    }
-    .location-group button:hover {
-      background-color: #c7d2fe;
-    }
-    .info-text {
-      font-size: 0.85rem;
-      color: #555;
-      margin-top: 0.2rem;
-      display: block;
-    }
-    button[type="submit"] {
-      margin-top: 1.5rem;
+    .preview {
+      margin-top: 0.5rem;
       width: 100%;
-      padding: 0.9rem;
-      background-color: #4f46e5;
-      color: #fff;
-      border: none;
+      max-height: 200px;
+      object-fit: cover;
       border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
+      border: 1px solid #ccc;
     }
-    button[type="submit"]:hover {
+    button {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+    button.submit {
+      width: 100%;
+      background-color: #4f46e5;
+      color: white;
+      font-weight: bold;
+      margin-top: 1.5rem;
+    }
+    button.submit:hover {
       background-color: #4338ca;
     }
-    #status {
+    .status {
+      text-align: center;
       margin-top: 1rem;
       font-weight: 500;
-      text-align: center;
+    }
+    .log {
+      margin-top: 2rem;
+    }
+    .log ul {
+      list-style-type: disc;
+      padding-left: 1rem;
+    }
+    .log li {
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dashed #ccc;
     }
     #connectionStatusBox {
       position: fixed;
-      bottom: 16px;
-      right: 16px;
-      background-color: #e5e7eb;
-      color: #111827;
-      font-size: 0.9rem;
+      bottom: 20px;
+      right: 20px;
       padding: 0.6rem 1rem;
+      background: #e5e7eb;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      z-index: 9999;
-      font-weight: 600;
-      transition: background-color 0.3s, color 0.3s;
+      font-weight: bold;
     }
     #connectionStatusBox.offline {
-      background-color: #fee2e2;
+      background: #fee2e2;
       color: #991b1b;
-    }
-    #logList {
-      list-style-type: disc;
-      padding-left: 1.2rem;
-      color: #333;
-    }
-    #logList li {
-      margin-bottom: 1rem;
-      border-bottom: 1px dashed #ccc;
-      padding-bottom: 0.5rem;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Form Inventaris Barang BPP</h2>
-    <h4 style="text-align:center;">Bidang Penyuluhan Kab. Sambas</h4>
-    <form id="inventarisForm">
-      <label for="namaBPP">Nama BPP</label>
-      <select name="namaBPP" id="namaBPP" class="form-control" required>
-        <option value="" disabled selected>-- Pilih BPP --</option>
-        <option>BPP Selakau</option>
-        <option>BPP Selakau Timur</option>
-        <option>BPP Salatiga</option>
-        <option>BPP Pemangkat</option>
-        <option>BPP Semparuk</option>
-        <option>BPP Tebas</option>
-        <option>BPP Tekarang</option>
-        <option>BPP Jawai</option>
-        <option>BPP Jawai Selatan</option>
-        <option>BPP Sebawi</option>
-        <option>BPP Sambas</option>
-        <option>BPP Subah</option>
-        <option>BPP Sejangkung</option>
-        <option>BPP Sajad</option>
-        <option>BPP Galing</option>
-        <option>BPP Sajingan Besar</option>
-        <option>BPP Teluk Keramat</option>
-        <option>BPP Tangaran</option>
-        <option>BPP Paloh</option>
-      </select>
+<div class="container">
+  <h2>Form Inventaris Barang BPP</h2>
+  <h4>Bidang Penyuluhan Kab. Sambas</h4>
 
-      <label>Nama Barang</label>
-      <input type="text" name="namaBarang" required />
-      <label>Tahun Rilis</label>
-      <input type="text" name="tahunRilis" placeholder="Tahun Saat Barang Diterima" required />
-      <label>Kondisi Barang</label>
-      <input type="text" name="kondisiBarang" placeholder="Baik / Rusak Ringan / Rusak Berat" required />
-      <label>Titik Koordinat</label>
-      <div class="location-group">
-        <input type="text" name="titikKoordinat" id="titikKoordinat" placeholder="-0.12345, 109.12345" required />
-        <button type="button" onclick="getLocation()">📍</button>
-      </div>
-      <small class="info-text">📍 Klik tombol untuk ambil lokasi otomatis</small>
+  <form id="form">
+    <label>Nama BPP</label>
+    <select id="namaBPP" required>
+      <option disabled selected>-- Pilih BPP --</option>
+      <option>BPP Selakau</option>
+      <option>BPP Selakau Timur</option>
+      <option>BPP Salatiga</option>
+      <option>BPP Pemangkat</option>
+      <option>BPP Semparuk</option>
+      <option>BPP Tebas</option>
+      <option>BPP Tekarang</option>
+      <option>BPP Jawai</option>
+      <option>BPP Jawai Selatan</option>
+      <option>BPP Sebawi</option>
+      <option>BPP Sambas</option>
+      <option>BPP Subah</option>
+      <option>BPP Sejangkung</option>
+      <option>BPP Sajad</option>
+      <option>BPP Galing</option>
+      <option>BPP Sajingan Besar</option>
+      <option>BPP Teluk Keramat</option>
+      <option>BPP Tangaran</option>
+      <option>BPP Paloh</option>
+    </select>
 
-      <!-- Gambar Depan -->
-      <label>Tampak Depan</label>
-      <div class="location-group">
-        <input type="file" id="fileDepanKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewDepan')" />
-        <input type="file" id="fileDepanGaleri" accept="image/*" style="display:none" onchange="previewImage(this, 'previewDepan')" />
-        <button type="button" onclick="document.getElementById('fileDepanKamera').click()">📷 Ambil Foto</button>
-        <button type="button" onclick="document.getElementById('fileDepanGaleri').click()">🖼️ Pilih dari Galeri</button>
-      </div>
-      <img id="previewDepan" class="preview" src="" alt="Preview Gambar Depan" />
+    <label>Nama Barang</label>
+    <input type="text" id="namaBarang" required />
 
-      <!-- Gambar Samping -->
-      <label>Tampak Samping</label>
-      <div class="location-group">
-        <input type="file" id="fileSampingKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewSamping')" />
-        <input type="file" id="fileSampingGaleri" accept="image/*" style="display:none" onchange="previewImage(this, 'previewSamping')" />
-        <button type="button" onclick="document.getElementById('fileSampingKamera').click()">📷 Ambil Foto</button>
-        <button type="button" onclick="document.getElementById('fileSampingGaleri').click()">🖼️ Pilih dari Galeri</button>
-      </div>
-      <img id="previewSamping" class="preview" src="" alt="Preview Gambar Samping" />
+    <label>Tahun Rilis</label>
+    <input type="text" id="tahunRilis" placeholder="Contoh: 2020" required />
 
-      <!-- Gambar Belakang -->
-      <label>Tampak Belakang</label>
-      <div class="location-group">
-        <input type="file" id="fileBelakangKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewBelakang')" />
-        <input type="file" id="fileBelakangGaleri" accept="image/*" style="display:none" onchange="previewImage(this, 'previewBelakang')" />
-        <button type="button" onclick="document.getElementById('fileBelakangKamera').click()">📷 Ambil Foto</button>
-        <button type="button" onclick="document.getElementById('fileBelakangGaleri').click()">🖼️ Pilih dari Galeri</button>
-      </div>
-      <img id="previewBelakang" class="preview" src="" alt="Preview Gambar Belakang" />
+    <label>Kondisi Barang</label>
+    <input type="text" id="kondisiBarang" placeholder="Baik / Rusak Ringan / Rusak Berat" required />
 
-      <button type="submit">📦 Simpan Data</button>
-    </form>
-
-    <p id="status"></p>
-
-    <div id="logAktivitas">
-      <h3>📋 Riwayat Input</h3>
-      <ul id="logList"></ul>
+    <label>Titik Koordinat</label>
+    <div class="location-group">
+      <input type="text" id="titikKoordinat" required placeholder="-0.123456, 109.123456" />
+      <button type="button" onclick="getLocation()">📍</button>
     </div>
+
+    <label>Gambar Depan</label>
+    <div class="foto-group">
+      <input type="file" id="fotoDepan" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewDepan')">
+      <button type="button" onclick="document.getElementById('fotoDepan').click()">📷 Ambil Foto</button>
+    </div>
+    <img class="preview" id="previewDepan" src="" />
+
+    <label>Gambar Samping</label>
+    <div class="foto-group">
+      <input type="file" id="fotoSamping" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewSamping')">
+      <button type="button" onclick="document.getElementById('fotoSamping').click()">📷 Ambil Foto</button>
+    </div>
+    <img class="preview" id="previewSamping" src="" />
+
+    <label>Gambar Belakang</label>
+    <div class="foto-group">
+      <input type="file" id="fotoBelakang" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this, 'previewBelakang')">
+      <button type="button" onclick="document.getElementById('fotoBelakang').click()">📷 Ambil Foto</button>
+    </div>
+    <img class="preview" id="previewBelakang" src="" />
+
+    <button type="submit" class="submit">📦 Simpan Data</button>
+  </form>
+
+  <div class="status" id="status"></div>
+
+  <div class="log">
+    <h3>📋 Riwayat Input (Global)</h3>
+    <ul id="logList"></ul>
   </div>
+</div>
 
-  <div id="connectionStatusBox">📶 Online</div>
+<div id="connectionStatusBox">📶 Online</div>
 
-  <script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbzsr7QQzAJaHlEQHolVd3QiCHA_7kGlHho0byqY7sQlzOZuUmefE5BnIc2pGV6yvlbe/exec";
+<script>
+const webAppUrl = "https://script.google.com/macros/s/AKfycbzEYC1s2U6pgAmYJbAKtKzZ8S8hqHeLLRT_rPfKnOdgcXOWKPfEtWggBsDsM7cz5pLQWA/exec";
 
-function tampilkanSemuaLog() {
-      const allLogList = document.getElementById("allLogList");
-      const logs = JSON.parse(localStorage.getItem("logInventaris") || "[]");
-      allLogList.innerHTML = "";
+function previewImage(input, targetId) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => document.getElementById(targetId).src = e.target.result;
+  reader.readAsDataURL(file);
+}
 
-      if (logs.length === 0) {
-        allLogList.innerHTML = "<li>Tidak ada riwayat ditemukan.</li>";
+function getLocation() {
+  const input = document.getElementById("titikKoordinat");
+  input.placeholder = "📡 Mengambil lokasi...";
+  navigator.geolocation.getCurrentPosition(pos => {
+    const lat = pos.coords.latitude.toFixed(6);
+    const lon = pos.coords.longitude.toFixed(6);
+    input.value = `${lat}, ${lon}`;
+    input.placeholder = "-0.123456, 109.123456";
+  }, err => {
+    alert("❌ Gagal mendapatkan lokasi: " + err.message);
+  });
+}
+
+function updateConnectionStatus(online) {
+  const box = document.getElementById("connectionStatusBox");
+  box.textContent = online ? "📶 Online" : "📴 Offline - Data Disimpan Lokal";
+  box.classList.toggle("offline", !online);
+}
+
+window.addEventListener("online", () => updateConnectionStatus(true));
+window.addEventListener("offline", () => updateConnectionStatus(false));
+updateConnectionStatus(navigator.onLine);
+
+function tampilkanLog() {
+  fetch(`${webAppUrl}?action=read`)
+    .then(res => res.json())
+    .then(data => {
+      const list = document.getElementById("logList");
+      list.innerHTML = "";
+      if (!data.length) {
+        list.innerHTML = "<li>Tidak ada data.</li>";
         return;
       }
-
-      logs.slice().reverse().forEach(log => {
+      data.reverse().forEach(item => {
         const li = document.createElement("li");
         li.innerHTML = `
-          <strong>${log.namaBarang}</strong> (${log.namaBPP})<br/>
-          Tahun: ${log.tahunRilis}, Kondisi: ${log.kondisiBarang}<br/>
-          Lokasi: ${log.titikKoordinat}<br/>
-          <small>🕒 ${log.waktu}</small>
+          <strong>${item.namaBarang}</strong> (${item.namaBPP})<br>
+          Tahun: ${item.tahunRilis}, Kondisi: ${item.kondisiBarang}<br>
+          Lokasi: ${item.titikKoordinat}<br>
+          <small>${item.timestamp}</small>
         `;
-        allLogList.appendChild(li);
+        list.appendChild(li);
       });
-    }
-
-    window.addEventListener("load", () => {
-      tampilkanLog();
-      tampilkanSemuaLog();
-    
-    function previewImage(input, imgId) {
-      const file = input.files[0];
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        document.getElementById(imgId).src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function getLocation() {
-      const input = document.getElementById("titikKoordinat");
-      input.placeholder = "📡 Mendeteksi lokasi...";
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            const lat = pos.coords.latitude.toFixed(6);
-            const lon = pos.coords.longitude.toFixed(6);
-            input.value = `${lat}, ${lon}`;
-            input.placeholder = "-0.12345, 109.12345";
-          },
-          (err) => {
-            input.placeholder = "-0.12345, 109.12345";
-            alert("❌ Gagal mendapatkan lokasi: " + err.message);
-          }
-        );
-      } else {
-        alert("❌ Browser tidak mendukung geolokasi.");
-      }
-    }
-
-    function simpanKeLog(data) {
-      const logs = JSON.parse(localStorage.getItem("logInventaris") || "[]");
-      logs.push({ waktu: new Date().toLocaleString(), ...data });
-      localStorage.setItem("logInventaris", JSON.stringify(logs));
-      tampilkanLog();
-    }
-
-    function tampilkanLog() {
-      const logList = document.getElementById("logList");
-      const logs = JSON.parse(localStorage.getItem("logInventaris") || "[]");
-      logList.innerHTML = "";
-
-      if (logs.length === 0) {
-        logList.innerHTML = "<li>Tidak ada data yang tersimpan.</li>";
-        return;
-      }
-
-      logs.slice().reverse().forEach(log => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <strong>${log.namaBarang}</strong> (${log.namaBPP})<br/>
-          Tahun: ${log.tahunRilis}, Kondisi: ${log.kondisiBarang}<br/>
-          Lokasi: ${log.titikKoordinat}<br/>
-          <small>🕒 ${log.waktu}</small>
-        `;
-        logList.appendChild(li);
-      });
-    }
-
-    document.getElementById('inventarisForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const form = e.target;
-      const status = document.getElementById("status");
-
-      if (!navigator.onLine) {
-        saveFormToLocal();
-        return;
-      }
-
-      status.textContent = "⏳ Mengirim data...";
-
-      const toBase64 = file => new Promise((resolve, reject) => {
-        if (!file) return resolve("");
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-      });
-
-      try {
-        const formData = new URLSearchParams();
-        formData.append("namaBPP", form.namaBPP.value);
-        formData.append("namaBarang", form.namaBarang.value);
-        formData.append("tahunRilis", form.tahunRilis.value);
-        formData.append("kondisiBarang", form.kondisiBarang.value);
-        formData.append("titikKoordinat", form.titikKoordinat.value);
-        formData.append("gambarDepan", await toBase64(document.getElementById('fileDepanKamera').files[0] || document.getElementById('fileDepanGaleri').files[0]));
-        formData.append("gambarSamping", await toBase64(document.getElementById('fileSampingKamera').files[0] || document.getElementById('fileSampingGaleri').files[0]));
-        formData.append("gambarBelakang", await toBase64(document.getElementById('fileBelakangKamera').files[0] || document.getElementById('fileBelakangGaleri').files[0]));
-
-        const res = await fetch(webAppUrl, { method: "POST", body: formData });
-        const resultText = await res.text();
-
-        status.textContent = resultText.includes("success") ? "✅ Data berhasil disimpan" : "❌ Gagal menyimpan data";
-
-        if (resultText.includes("success")) {
-          simpanKeLog({
-            namaBPP: form.namaBPP.value,
-            namaBarang: form.namaBarang.value,
-            tahunRilis: form.tahunRilis.value,
-            kondisiBarang: form.kondisiBarang.value,
-            titikKoordinat: form.titikKoordinat.value
-          });
-
-          form.reset();
-          ["previewDepan", "previewSamping", "previewBelakang"].forEach(id => document.getElementById(id).src = "");
-          ["fileDepanKamera", "fileDepanGaleri", "fileSampingKamera", "fileSampingGaleri", "fileBelakangKamera", "fileBelakangGaleri"]
-            .forEach(id => document.getElementById(id).value = "");
-        }
-
-      } catch (err) {
-        status.textContent = "❌ Terjadi kesalahan: " + err.message;
-      }
     });
+}
 
-    function saveFormToLocal() {
-      const form = document.getElementById("inventarisForm");
-      const data = {
-        namaBPP: form.namaBPP.value,
-        namaBarang: form.namaBarang.value,
-        tahunRilis: form.tahunRilis.value,
-        kondisiBarang: form.kondisiBarang.value,
-        titikKoordinat: form.titikKoordinat.value
-      };
-      localStorage.setItem("offlineInventaris", JSON.stringify(data));
-      document.getElementById("status").textContent = "📦 Data disimpan sementara (offline)";
-      document.getElementById("status").style.color = "orange";
-    }
+document.getElementById("form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const status = document.getElementById("status");
+  status.textContent = "⏳ Mengirim...";
 
-    window.addEventListener("load", () => {
-      tampilkanLog();
-      const saved = localStorage.getItem("offlineInventaris");
-      if (saved) {
-        const form = document.getElementById("inventarisForm");
-        const data = JSON.parse(saved);
-        form.namaBPP.value = data.namaBPP || "";
-        form.namaBarang.value = data.namaBarang || "";
-        form.tahunRilis.value = data.tahunRilis || "";
-        form.kondisiBarang.value = data.kondisiBarang || "";
-        form.titikKoordinat.value = data.titikKoordinat || "";
-        document.getElementById("status").textContent = "📦 Data belum dikirim (offline)";
-        document.getElementById("status").style.color = "orange";
-      }
-    });
+  const toBase64 = file => new Promise((res, rej) => {
+    const reader = new FileReader();
+    reader.onload = () => res(reader.result);
+    reader.onerror = rej;
+    reader.readAsDataURL(file);
+  });
 
-    const statusBox = document.getElementById("connectionStatusBox");
-    function updateConnectionStatus(isOnline) {
-      statusBox.textContent = isOnline ? "📶 Online" : "📴 Offline - Data disimpan lokal";
-      statusBox.classList.toggle("offline", !isOnline);
-    }
-    updateConnectionStatus(navigator.onLine);
-    window.addEventListener("online", () => updateConnectionStatus(true));
-    window.addEventListener("offline", () => updateConnectionStatus(false));
-  </script>
+  try {
+    const fd = new FormData();
+    fd.append("namaBPP", document.getElementById("namaBPP").value);
+    fd.append("namaBarang", document.getElementById("namaBarang").value);
+    fd.append("tahunRilis", document.getElementById("tahunRilis").value);
+    fd.append("kondisiBarang", document.getElementById("kondisiBarang").value);
+    fd.append("titikKoordinat", document.getElementById("titikKoordinat").value);
+    fd.append("gambarDepan", await toBase64(document.getElementById("fotoDepan").files[0]));
+    fd.append("gambarSamping", await toBase64(document.getElementById("fotoSamping").files[0]));
+    fd.append("gambarBelakang", await toBase64(document.getElementById("fotoBelakang").files[0]));
+
+    const res = await fetch(webAppUrl, { method: "POST", body: fd });
+    const result = await res.text();
+    status.textContent = result.includes("success") ? "✅ Berhasil disimpan" : "❌ Gagal simpan";
+    tampilkanLog();
+    document.getElementById("form").reset();
+    ["previewDepan", "previewSamping", "previewBelakang"].forEach(id => document.getElementById(id).src = "");
+  } catch (err) {
+    status.textContent = "❌ Error: " + err.message;
+  }
+});
+
+window.addEventListener("load", tampilkanLog);
+</script>
 </body>
 </html>
