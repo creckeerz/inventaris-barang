@@ -128,24 +128,24 @@ button:hover {
 }
 
 /* Status Koneksi */
-.status-indicator {
+.connection-status {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #d1fae5;
-  color: #065f46;
-  padding: 6px 12px;
-  border-radius: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background-color: #e0fce5;
+  color: #166534;
   font-weight: 600;
-  font-size: 0.85rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.95;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
   transition: all 0.3s ease-in-out;
+  opacity: 0.95;
+  pointer-events: none;
 }
 
-.status-indicator.offline {
+.connection-status.offline {
   background-color: #fee2e2;
   color: #991b1b;
 }
