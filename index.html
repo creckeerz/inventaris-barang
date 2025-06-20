@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Inventaris Barang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Form Inventaris Barang</h2>
+  <form id="formInventaris">
+    <label>Nama BPP</label>
+    <input type="text" name="namaBPP" required>
+
+    <label>Nama Barang</label>
+    <input type="text" name="namaBarang" required>
+
+    <label>Tahun Rilis</label>
+    <input type="number" name="tahunRilis" required>
+
+    <label>Gambar Tampak Depan</label>
+    <input type="file" name="gambarDepan" accept="image/*" required>
+
+    <label>Gambar Tampak Samping</label>
+    <input type="file" name="gambarSamping" accept="image/*" required>
+
+    <label>Gambar Tampak Belakang</label>
+    <input type="file" name="gambarBelakang" accept="image/*" required>
+
+    <button type="submit">Kirim</button>
+    <div id="message"></div>
+  </form>
+
+  <script src="script.js"></script>
+</body>
+</html>
