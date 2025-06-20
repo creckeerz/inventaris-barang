@@ -1,128 +1,94 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Form Inventaris Barang</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f0fdf4;
-      padding: 20px;
-    }
-    h2 {
-      text-align: center;
-      color: #065f46;
-    }
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
       max-width: 600px;
-      margin: 0 auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: auto;
+      padding: 1rem;
     }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-      color: #065f46;
+    label { display: block; margin-top: 10px; }
+    input[type="text"], input[type="number"] {
+      width: 100%; padding: 8px;
     }
-    input[type="text"],
-    input[type="number"],
     input[type="file"] {
-      width: 100%;
-      padding: 10px;
       margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
     }
     button {
-      margin-top: 20px;
-      background-color: #10b981;
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    #message {
       margin-top: 15px;
-      text-align: center;
-      font-weight: bold;
+      padding: 10px 20px;
     }
   </style>
 </head>
 <body>
-  <h2>Formulir Inventaris Barang</h2>
-  <form id="formInventaris">
-    <label for="namaBPP">Nama BPP</label>
-    <input type="text" id="namaBPP" name="namaBPP" required>
-
-    <label for="namaBarang">Nama Barang</label>
-    <input type="text" id="namaBarang" name="namaBarang" required>
-
-    <label for="tahunRilis">Tahun Rilis</label>
-    <input type="number" id="tahunRilis" name="tahunRilis" required>
-
-    <label for="gambarDepan">Gambar Tampak Depan</label>
-    <input type="file" id="gambarDepan" name="gambarDepan" accept="image/*" required>
-
-    <label for="gambarSamping">Gambar Tampak Samping</label>
-    <input type="file" id="gambarSamping" name="gambarSamping" accept="image/*" required>
-
-    <label for="gambarBelakang">Gambar Tampak Belakang</label>
-    <input type="file" id="gambarBelakang" name="gambarBelakang" accept="image/*" required>
-
+  <h2>Form Inventaris Barang</h2>
+  <form id="inventarisForm">
+    <label>Nama BPP:
+      <input type="text" name="namaBPP" required />
+    </label>
+    <label>Nama Barang:
+      <input type="text" name="namaBarang" required />
+    </label>
+    <label>Tahun Rilis:
+      <input type="number" name="tahunRilis" required />
+    </label>
+    <label>Gambar Tampak Depan:
+      <input type="file" name="gambarDepan" accept="image/*" required />
+    </label>
+    <label>Gambar Tampak Samping:
+      <input type="file" name="gambarSamping" accept="image/*" required />
+    </label>
+    <label>Gambar Tampak Belakang:
+      <input type="file" name="gambarBelakang" accept="image/*" required />
+    </label>
     <button type="submit">Kirim</button>
-    <div id="message"></div>
   </form>
 
+  <p id="status"></p>
+
   <script>
-    document.getElementById("formInventaris").addEventListener("submit", async function (e) {
+    document.getElementById('inventarisForm').addEventListener('submit', async function (e) {
       e.preventDefault();
+      const form = e.target;
+      const status = document.getElementById("status");
 
-      const namaBPP = document.getElementById("namaBPP").value;
-      const namaBarang = document.getElementById("namaBarang").value;
-      const tahunRilis = document.getElementById("tahunRilis").value;
+      const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+      });
 
-      const gambarDepan = await toBase64(document.getElementById("gambarDepan").files[0]);
-      const gambarSamping = await toBase64(document.getElementById("gambarSamping").files[0]);
-      const gambarBelakang = await toBase64(document.getElementById("gambarBelakang").files[0]);
-
-      const payload = {
-        namaBPP,
-        namaBarang,
-        tahunRilis,
-        gambarDepan: gambarDepan.replace(/^data:image\/\w+;base64,/, ""),
-        gambarSamping: gambarSamping.replace(/^data:image\/\w+;base64,/, ""),
-        gambarBelakang: gambarBelakang.replace(/^data:image\/\w+;base64,/, "")
+      const data = {
+        namaBPP: form.namaBPP.value,
+        namaBarang: form.namaBarang.value,
+        tahunRilis: form.tahunRilis.value,
+        gambarDepan: await toBase64(form.gambarDepan.files[0]),
+        gambarSamping: await toBase64(form.gambarSamping.files[0]),
+        gambarBelakang: await toBase64(form.gambarBelakang.files[0]),
       };
 
-      fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbyqjas8tE_GcHzs0I2msG9OhDmfhU_62yeoGWnz5-pG1Y79Vbqwhsy6vpzdB0JNFaGTzg/exec", {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json"
         }
       })
-      .then(res => res.text())
-      .then(msg => {
-        document.getElementById("message").textContent = msg;
+      .then(res => res.json())
+      .then(res => {
+        status.innerText = "✅ " + res.message;
+        form.reset();
       })
       .catch(err => {
-        document.getElementById("message").textContent = "\u274C Gagal mengirim: " + err.message;
+        status.innerText = "❌ Gagal menyimpan data.";
+        console.error(err);
       });
     });
-
-    function toBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-        reader.readAsDataURL(file);
-      });
-    }
   </script>
 </body>
 </html>
