@@ -11,8 +11,8 @@
       font-family: 'Inter', sans-serif;
     }
     body {
-      background: #f5f7fa;
-      padding: 2rem;
+      background: #f3f4f6;
+      padding: 20px;
       display: flex;
       justify-content: center;
     }
@@ -27,7 +27,7 @@
     h2 {
       text-align: center;
       margin-bottom: 1.5rem;
-      color: #2b2b2b;
+      color: #1f2937;
     }
     label {
       display: block;
@@ -37,29 +37,67 @@
     }
     input[type="text"],
     input[type="number"],
-    input[type="file"] {
+    input[type="file"],
+    select.form-control {
       width: 100%;
       padding: 0.75rem;
       border: 1px solid #ddd;
       border-radius: 8px;
       font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      background-color: #fff;
       transition: 0.2s;
     }
-    input[type="text"]:focus,
-    input[type="number"]:focus,
-    input[type="file"]:focus {
+    input:focus,
+    select.form-control:focus {
       border-color: #4f46e5;
       outline: none;
       box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
     }
+    select.form-control {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg fill='gray' height='24' viewBox='0 0 24 24' width='24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1.2rem;
+    }
     .preview {
       margin-top: 0.5rem;
-      max-height: 120px;
+      max-height: 150px;
       border-radius: 8px;
       border: 1px solid #ccc;
       display: block;
+      object-fit: cover;
     }
-    button {
+    .location-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .location-group input {
+      flex: 1;
+    }
+    .location-group button {
+      background-color: #e0e7ff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 0.8rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.2s ease;
+    }
+    .location-group button:hover {
+      background-color: #c7d2fe;
+    }
+    .info-text {
+      font-size: 0.85rem;
+      color: #555;
+      margin-top: 0.2rem;
+      display: block;
+    }
+    button[type="submit"] {
       margin-top: 1.5rem;
       width: 100%;
       padding: 0.9rem;
@@ -72,7 +110,7 @@
       cursor: pointer;
       transition: background-color 0.2s ease;
     }
-    button:hover {
+    button[type="submit"]:hover {
       background-color: #4338ca;
     }
     #status {
@@ -86,61 +124,57 @@
   <div class="container">
     <h2>Form Inventaris Barang</h2>
     <form id="inventarisForm">
-     <label>Nama BPP</label>
-<select name="namaBPP" class="form-control" required>
-  <option value="" disabled selected>-- Pilih BPP --</option>
-  <option>BPP Selakau</option>
-  <option>BPP Selakau Timur</option>
-  <option>BPP Salatiga</option>
-  <option>BPP Pemangkat</option>
-  <option>BPP Semparuk</option>
-  <option>BPP Tebas</option>
-  <option>BPP Tekarang</option>
-  <option>BPP Jawai</option>
-  <option>BPP Jawai Selatan</option>
-  <option>BPP Sebawi</option>
-  <option>BPP Sambas</option>
-  <option>BPP Subah</option>
-  <option>BPP Sejangkung</option>
-  <option>BPP Sajad</option>
-  <option>BPP Galing</option>
-  <option>BPP Sajingan Besar</option>
-  <option>BPP Teluk Keramat</option>
-  <option>BPP Tangaran</option>
-  <option>BPP Paloh</option>
-</select>
-
-
+      <label for="namaBPP">Nama BPP</label>
+      <select name="namaBPP" id="namaBPP" class="form-control" required>
+        <option value="" disabled selected>-- Pilih BPP --</option>
+        <option>BPP Selakau</option>
+        <option>BPP Selakau Timur</option>
+        <option>BPP Salatiga</option>
+        <option>BPP Pemangkat</option>
+        <option>BPP Semparuk</option>
+        <option>BPP Tebas</option>
+        <option>BPP Tekarang</option>
+        <option>BPP Jawai</option>
+        <option>BPP Jawai Selatan</option>
+        <option>BPP Sebawi</option>
+        <option>BPP Sambas</option>
+        <option>BPP Subah</option>
+        <option>BPP Sejangkung</option>
+        <option>BPP Sajad</option>
+        <option>BPP Galing</option>
+        <option>BPP Sajingan Besar</option>
+        <option>BPP Teluk Keramat</option>
+        <option>BPP Tangaran</option>
+        <option>BPP Paloh</option>
+      </select>
 
       <label>Nama Barang</label>
       <input type="text" name="namaBarang" required />
 
       <label>Tahun Rilis</label>
-      <input type="number" name="tahunRilis" placeholder="Tahun Perolehan : Saat Barang Diterima" required />
+      <input type="number" name="tahunRilis" required />
 
       <label>Kondisi Barang</label>
       <input type="text" name="kondisiBarang" placeholder="Baik / Rusak Ringan / Rusak Berat" required />
 
-   <label>Titik Koordinat</label>
-<div class="location-group">
-  <input type="text" name="titikKoordinat" id="titikKoordinat" placeholder="-0.12345, 109.12345" required />
-  <button type="button" onclick="getLocation()" title="Gunakan Lokasi Saat Ini">📍</button>
-</div>
-<small class="info-text">Klik tombol 📍 untuk mengisi lokasi otomatis</small>
+      <label>Titik Koordinat</label>
+      <div class="location-group">
+        <input type="text" name="titikKoordinat" id="titikKoordinat" placeholder="-0.12345, 109.12345" required />
+        <button type="button" onclick="getLocation()">📍</button>
+      </div>
+      <small class="info-text">📍 Klik tombol untuk ambil lokasi otomatis</small>
 
+      <label>Gambar Tampak Depan</label>
+      <input type="file" name="gambarDepan" accept="image/*" required onchange="previewImage(this, 'previewDepan')" />
+      <img id="previewDepan" class="preview" />
 
-     <label>Gambar Tampak Depan</label>
-<input type="file" name="gambarDepan" accept="image/*" required onchange="previewImage(this, 'previewDepan')" />
-<img id="previewDepan" class="preview" src="" alt="Preview Depan" />
+      <label>Gambar Tampak Samping</label>
+      <input type="file" name="gambarSamping" accept="image/*" required onchange="previewImage(this, 'previewSamping')" />
+      <img id="previewSamping" class="preview" />
 
-<label>Gambar Tampak Samping</label>
-<input type="file" name="gambarSamping" accept="image/*" required onchange="previewImage(this, 'previewSamping')" />
-<img id="previewSamping" class="preview" src="" alt="Preview Samping" />
-
-<label>Gambar Tampak Belakang</label>
-<input type="file" name="gambarBelakang" accept="image/*" required onchange="previewImage(this, 'previewBelakang')" />
-<img id="previewBelakang" class="preview" src="" alt="Preview Belakang" />
-
+      <label>Gambar Tampak Belakang</label>
+      <input type="file" name="gambarBelakang" accept="image/*" required onchange="previewImage(this, 'previewBelakang')" />
+      <img id="previewBelakang" class="preview" />
 
       <button type="submit">📦 Simpan Data</button>
     </form>
