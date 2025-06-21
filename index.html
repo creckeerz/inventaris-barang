@@ -191,15 +191,18 @@
   reader.readAsDataURL(file);
 });
       const formData = new URLSearchParams({
-        namaBPP: form.namaBPP.value,
-        namaBarang: form.namaBarang.value,
-        tahunRilis: form.tahunRilis.value,
-        kondisiBarang: form.kondisiBarang.value,
-        titikKoordinat: form.titikKoordinat.value,
-        gambarDepan: await toBase64(document.getElementById("fileDepanKamera").files[0] || document.getElementById("fileDepanGaleri").files[0] || new Blob()),
-        gambarSamping: await toBase64(document.getElementById("fileSampingKamera").files[0] || document.getElementById("fileSampingGaleri").files[0] || new Blob()),
-        gambarBelakang: await toBase64(document.getElementById("fileBelakangKamera").files[0] || document.getElementById("fileBelakangGaleri").files[0] || new Blob())
-      });
+  namaBPP: form.namaBPP.value,
+  kategori: form.kategori.value, // ✅ Tambahkan ini
+  namaBarang: form.namaBarang.value,
+  sumberDana: form.sumberDana.value, // ✅ Tambahkan ini
+  tahunRilis: form.tahunRilis.value,
+  kondisiBarang: form.kondisiBarang.value,
+  titikKoordinat: form.titikKoordinat.value,
+  gambarDepan: await toBase64(document.getElementById("fileDepanKamera").files[0] || document.getElementById("fileDepanGaleri").files[0] || new Blob()),
+  gambarSamping: await toBase64(document.getElementById("fileSampingKamera").files[0] || document.getElementById("fileSampingGaleri").files[0] || new Blob()),
+  gambarBelakang: await toBase64(document.getElementById("fileBelakangKamera").files[0] || document.getElementById("fileBelakangGaleri").files[0] || new Blob())
+});
+
       const res = await fetch(webAppUrl, { method: "POST", body: formData });
       const txt = await res.text();
       status.textContent = txt.includes("success") ? "✅ Data berhasil disimpan" : "❌ Gagal menyimpan";
