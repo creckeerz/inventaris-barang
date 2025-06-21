@@ -33,6 +33,21 @@
     #connectionStatusBox.offline { background:#fee2e2; color:#991b1b; }
     #logList { list-style:disc; padding-left:1.2rem; color:#333; }
     #logList li { margin-bottom:1rem; border-bottom:1px dashed #ccc; padding-bottom:.5rem; }
+
+    /* Animasi sembunyi/tampil belakang */
+    .fade-toggle {
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.4s ease;
+      max-height: 1000px;
+      opacity: 1;
+    }
+    .fade-toggle.hide {
+      max-height: 0;
+      opacity: 0;
+      padding: 0;
+      margin: 0;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -44,17 +59,14 @@
       <label>Nama BPP</label>
       <select name="namaBPP" class="form-control" required>
         <option value="" disabled selected>-- Pilih BPP --</option>
-        <option>BPP Selakau</option><option>BPP Selakau Timur</option><option>BPP Salatiga</option><option>BPP Pemangkat</option>
-        <option>BPP Semparuk</option><option>BPP Tebas</option><option>BPP Tekarang</option><option>BPP Jawai</option>
-        <option>BPP Jawai Selatan</option><option>BPP Sebawi</option><option>BPP Sambas</option><option>BPP Subah</option>
-        <option>BPP Sejangkung</option><option>BPP Sajad</option><option>BPP Galing</option><option>BPP Sajingan Besar</option>
-        <option>BPP Teluk Keramat</option><option>BPP Tangaran</option><option>BPP Paloh</option>
+        <option>BPP Selakau</option><option>BPP Pemangkat</option><option>BPP Galing</option>
       </select>
 
       <label>Kategori</label>
       <select name="kategori" class="form-control" required>
         <option value="" disabled selected>-- Pilih Kategori --</option>
-        <option>Bangunan</option><option>Barang</option>
+        <option>Bangunan</option>
+        <option>Barang</option>
       </select>
 
       <label>Nama Barang</label>
@@ -63,8 +75,7 @@
       <label>Sumber Dana</label>
       <select name="sumberDana" class="form-control" required>
         <option value="" disabled selected>-- Pilih Sumber Dana --</option>
-        <option>APBN</option><option>APBD</option><option>FEATI</option><option>READSI</option>
-        <option>IPDMIP</option><option>Lainnya</option>
+        <option>APBN</option><option>APBD</option><option>Lainnya</option>
       </select>
 
       <label>Tahun</label>
@@ -98,19 +109,16 @@
       </div>
       <img id="previewSamping" class="preview" />
 
-  
-
       <div id="bagianBelakang" class="fade-toggle">
-  <label>Tampak Belakang</label>
-  <div class="location-group">
-    <input type="file" id="fileBelakangKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this,'previewBelakang')" />
-    <input type="file" id="fileBelakangGaleri" accept="image/*" style="display:none" onchange="previewImage(this,'previewBelakang')" />
-    <button type="button" onclick="document.getElementById('fileBelakangKamera').click()">📷 Ambil Foto</button>
-    <button type="button" onclick="document.getElementById('fileBelakangGaleri').click()">🖼️ Pilih dari Galeri</button>
-  </div>
-  <img id="previewBelakang" class="preview" />
-</div>
-
+        <label>Tampak Belakang</label>
+        <div class="location-group">
+          <input type="file" id="fileBelakangKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this,'previewBelakang')" />
+          <input type="file" id="fileBelakangGaleri" accept="image/*" style="display:none" onchange="previewImage(this,'previewBelakang')" />
+          <button type="button" onclick="document.getElementById('fileBelakangKamera').click()">📷 Ambil Foto</button>
+          <button type="button" onclick="document.getElementById('fileBelakangGaleri').click()">🖼️ Pilih dari Galeri</button>
+        </div>
+        <img id="previewBelakang" class="preview" />
+      </div>
 
       <button type="submit">📦 Simpan Data</button>
     </form>
@@ -118,30 +126,24 @@
     <p id="status"></p>
 
     <div id="logAktivitas">
-  <h3>📋 Riwayat Input</h3>
-  <button id="btnReloadRiwayat" type="button" style="margin-bottom:1rem; background:#e0e7ff; border:none; padding:.6rem 1rem; border-radius:8px; font-weight:600; cursor:pointer;">🔄 Reload Riwayat</button>
-  <ul id="logList"></ul>
-</div>
-
-
+      <h3>📋 Riwayat Input</h3>
+      <button id="btnReloadRiwayat" type="button" style="margin-bottom:1rem; background:#e0e7ff; border:none; padding:.6rem 1rem; border-radius:8px; font-weight:600; cursor:pointer;">🔄 Reload Riwayat</button>
       <ul id="logList"></ul>
     </div>
-
   </div>
 
   <div id="connectionStatusBox">📶 Online</div>
 
   <script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbw6iuVEM112ZhX78AY-NK57YS7PIzKPYVI8tHSoSzQ8hznU3G387oZ2k1IaRcr2PrB2pQ/exec";
+    const webAppUrl = "YOUR_WEB_APP_URL_HERE"; // ganti dengan URL kamu
 
     function previewImage(input, imgId) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => document.getElementById(imgId).src = e.target.result;
-  reader.readAsDataURL(file);
-}
-
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => document.getElementById(imgId).src = e.target.result;
+      reader.readAsDataURL(file);
+    }
 
     function getLocation() {
       const input = document.getElementById("titikKoordinat");
@@ -160,9 +162,7 @@
 
     function tampilkanLog(logs) {
       const ul = document.getElementById("logList");
-      ul.innerHTML = logs.length
-        ? ""
-        : "<li>Tidak ada data yang tersimpan.</li>";
+      ul.innerHTML = logs.length ? "" : "<li>Tidak ada data yang tersimpan.</li>";
       logs.reverse().forEach(item => {
         const li = document.createElement("li");
         li.innerHTML = `<strong>${item["Nama Barang"]}</strong> (${item["Nama BPP"]})<br/>Tahun: ${item["Tahun Rilis"]}, Kondisi: ${item["Kondisi Barang"]}<br/>Lokasi: ${item["Titik Koordinat"]}<br/><small>🕒 ${item["Timestamp"]}</small>`;
@@ -190,30 +190,29 @@
       }
       status.textContent = "⏳ Mengirim...";
       const toBase64 = file => new Promise(resolve => {
-  if (!file) return resolve(""); // jika tidak ada file, kembalikan kosong
-  const reader = new FileReader();
-  reader.onload = () => resolve(reader.result);
-  reader.readAsDataURL(file);
-});
+        if (!file) return resolve("");
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      });
       const formData = new URLSearchParams({
-  namaBPP: form.namaBPP.value,
-  kategori: form.kategori.value, // ✅ Tambahkan ini
-  namaBarang: form.namaBarang.value,
-  sumberDana: form.sumberDana.value, // ✅ Tambahkan ini
-  tahunRilis: form.tahunRilis.value,
-  kondisiBarang: form.kondisiBarang.value,
-  titikKoordinat: form.titikKoordinat.value,
-  gambarDepan: await toBase64(document.getElementById("fileDepanKamera").files[0] || document.getElementById("fileDepanGaleri").files[0] || new Blob()),
-  gambarSamping: await toBase64(document.getElementById("fileSampingKamera").files[0] || document.getElementById("fileSampingGaleri").files[0] || new Blob()),
-  gambarBelakang: await toBase64(document.getElementById("fileBelakangKamera").files[0] || document.getElementById("fileBelakangGaleri").files[0] || new Blob())
-});
-
+        namaBPP: form.namaBPP.value,
+        kategori: form.kategori.value,
+        namaBarang: form.namaBarang.value,
+        sumberDana: form.sumberDana.value,
+        tahunRilis: form.tahunRilis.value,
+        kondisiBarang: form.kondisiBarang.value,
+        titikKoordinat: form.titikKoordinat.value,
+        gambarDepan: await toBase64(document.getElementById("fileDepanKamera").files[0] || document.getElementById("fileDepanGaleri").files[0]),
+        gambarSamping: await toBase64(document.getElementById("fileSampingKamera").files[0] || document.getElementById("fileSampingGaleri").files[0]),
+        gambarBelakang: await toBase64(document.getElementById("fileBelakangKamera").files[0] || document.getElementById("fileBelakangGaleri").files[0])
+      });
       const res = await fetch(webAppUrl, { method: "POST", body: formData });
       const txt = await res.text();
       status.textContent = txt.includes("success") ? "✅ Data berhasil disimpan" : "❌ Gagal menyimpan";
       fetchRiwayatGlobal();
       form.reset();
-      ["previewDepan","previewSamping","previewBelakang"].forEach(id => document.getElementById(id).src = "");
+      ["previewDepan", "previewSamping", "previewBelakang"].forEach(id => document.getElementById(id).src = "");
     });
 
     function updateConnectionStatus(online) {
@@ -223,34 +222,29 @@
     }
 
     window.addEventListener("load", () => {
-  fetchRiwayatGlobal();
-  updateConnectionStatus(navigator.onLine);
+      fetchRiwayatGlobal();
+      updateConnectionStatus(navigator.onLine);
 
-  const btnReload = document.getElementById("btnReloadRiwayat");
-  if (btnReload) {
-    btnReload.addEventListener("click", fetchRiwayatGlobal);
-  }
+      const btnReload = document.getElementById("btnReloadRiwayat");
+      if (btnReload) {
+        btnReload.addEventListener("click", fetchRiwayatGlobal);
+      }
 
-  // ⬇️ Tambahkan ini
-  function aturTampilanGambarBelakang() {
-    const kategori = document.querySelector('select[name="kategori"]').value;
-    const bagianBelakang = document.getElementById("bagianBelakang");
-    if (kategori === "Barang") {
-      bagianBelakang.classList.add("hide");
-    } else {
-      bagianBelakang.classList.remove("hide");
-    }
-  }
+      // ⬇️ Fungsi logika kategori
+      function aturTampilanGambarBelakang() {
+        const kategori = document.querySelector('select[name="kategori"]').value;
+        const bagianBelakang = document.getElementById("bagianBelakang");
+        if (kategori === "Barang") {
+          bagianBelakang.classList.add("hide");
+        } else {
+          bagianBelakang.classList.remove("hide");
+        }
+      }
 
-  // Jalankan saat kategori berubah
-  document.querySelector('select[name="kategori"]').addEventListener("change", aturTampilanGambarBelakang);
+      document.querySelector('select[name="kategori"]').addEventListener("change", aturTampilanGambarBelakang);
+      aturTampilanGambarBelakang(); // jalankan awal
+    });
 
-  // Jalankan sekali saat halaman dimuat
-  aturTampilanGambarBelakang();
-});
-
-
-    document.getElementById("btnReloadRiwayat").addEventListener("click", fetchRiwayatGlobal);
     window.addEventListener("online", () => updateConnectionStatus(true));
     window.addEventListener("offline", () => updateConnectionStatus(false));
   </script>
