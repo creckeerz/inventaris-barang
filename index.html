@@ -140,85 +140,145 @@
   <div id="connectionStatusBox">📶 Online</div>
 
   <script>
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbw6iuVEM112ZhX78AY-NK57YS7PIzKPYVI8tHSoSzQ8hznU3G387oZ2k1IaRcr2PrB2pQ/exec"; // ganti dengan URL kamu
+  const webAppUrl = "https://script.google.com/macros/s/AKfycbw6iuVEM112ZhX78AY-NK57YS7PIzKPYVI8tHSoSzQ8hznU3G387oZ2k1IaRcr2PrB2pQ/exec"; // Ganti dengan URL kamu
 
-    function previewImage(input, imgId) {
-      const file = input.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => document.getElementById(imgId).src = e.target.result;
-      reader.readAsDataURL(file);
-    }
+  function previewImage(input, imgId) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => document.getElementById(imgId).src = e.target.result;
+    reader.readAsDataURL(file);
+  }
 
-    function getLocation() {
-      const input = document.getElementById("titikKoordinat");
-      input.placeholder = "📡 Mendeteksi lokasi...";
-      navigator.geolocation.getCurrentPosition(
-        pos => {
-          input.value = pos.coords.latitude.toFixed(6) + ", " + pos.coords.longitude.toFixed(6);
-          input.placeholder = "";
-        },
-        err => {
-          input.placeholder = "-0.12345, 109.12345";
-          alert("Gagal mendapatkan lokasi: " + err.message);
-        }
-      );
-    }
-
-    function tampilkanLog(logs) {
-      const ul = document.getElementById("logList");
-      ul.innerHTML = logs.length ? "" : "<li>Tidak ada data yang tersimpan.</li>";
-      logs.reverse().forEach(item => {
-        const li = document.createElement("li");
-        li.innerHTML = `<strong>${item["Nama Barang"]}</strong> (${item["Nama BPP"]})<br/>Tahun: ${item["Tahun Rilis"]}, Kondisi: ${item["Kondisi Barang"]}<br/>Lokasi: ${item["Titik Koordinat"]}<br/><small>🕒 ${item["Timestamp"]}</small>`;
-        ul.appendChild(li);
-      });
-    }
-
-    async function fetchRiwayatGlobal() {
-      try {
-        const res = await fetch(webAppUrl);
-        const data = await res.json();
-        tampilkanLog(data);
-      } catch (err) {
-        document.getElementById("logList").innerHTML = "<li>Gagal memuat riwayat</li>";
+  function getLocation() {
+    const input = document.getElementById("titikKoordinat");
+    input.placeholder = "📡 Mendeteksi lokasi...";
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        input.value = `${pos.coords.latitude.toFixed(6)}, ${pos.coords.longitude.toFixed(6)}`;
+        input.placeholder = "";
+      },
+      err => {
+        input.placeholder = "-0.12345, 109.12345";
+        alert("Gagal mendapatkan lokasi: " + err.message);
       }
-    }
+    );
+  }
 
-    document.getElementById("inventarisForm").addEventListener("submit", async e => {
-      e.preventDefault();
-      const form = e.target;
-      const status = document.getElementById("status");
-      if (!navigator.onLine) {
-        status.textContent = "📴 Offline, data tidak terkirim.";
-        return;
-      }
-      status.textContent = "⏳ Mengirim...";
-      const toBase64 = file => new Promise(resolve => {
-        if (!file) return resolve("");
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.readAsDataURL(file);
-      });
-      const formData = new URLSearchParams({
-        namaBPP: form.namaBPP.value,
-        kategori: form.kategori.value,
-        namaBarang: form.namaBarang.value,
-        sumberDana: form.sumberDana.value,
-        tahunRilis: form.tahunRilis.value,
-        kondisiBarang: form.kondisiBarang.value,
-        titikKoordinat: form.titikKoordinat.value,
-        gambarDepan: await toBase64(document.getElementById("fileDepanKamera").files[0] || document.getElementById("fileDepanGaleri").files[0]),
-        gambarSamping: await toBase64(document.getElementById("fileSampingKamera").files[0] || document.getElementById("fileSampingGaleri").files[0]),
-        gambarBelakang: await toBase64(document.getElementById("fileBelakangKamera").files[0] || document.getElementById("fileBelakangGaleri").files[0])
-      });
-      const res = await fetch(webAppUrl, { method: "POST", body: formData });
-      const txt = await res.text();
-      status.textContent = txt.includes("success") ? "✅ Data berhasil disimpan" : "❌ Gagal menyimpan";
-      fetchRiwayatGlobal();
-      form.reset();
-      ["previewDepan", "previewSamping", "previewBelakang"].forEach(id => document.getElementById(id).src = "");
+  function tampilkanLog(logs) {
+    const ul = document.getElementById("logList");
+    ul.innerHTML = logs.length ? "" : "<li>Tidak ada data yang tersimpan.</li>";
+    logs.reverse().forEach(item => {
+      const li = document.createElement("li");
+      li.innerHTML = `<strong>${item["Nama Barang"]}</strong> (${item["Nama BPP"]})<br/>Tahun: ${item["Tahun Rilis"]}, Kondisi: ${item["Kondisi Barang"]}<br/>Lokasi: ${item["Titik Koordinat"]}<br/><small>🕒 ${item["Timestamp"]}</small>`;
+      ul.appendChild(li);
     });
+  }
+
+  async function fetchRiwayatGlobal() {
+    try {
+      const res = await fetch(webAppUrl);
+      const data = await res.json();
+      tampilkanLog(data);
+    } catch (err) {
+      document.getElementById("logList").innerHTML = "<li>Gagal memuat riwayat</li>";
+    }
+  }
+
+  function updateConnectionStatus(online) {
+    const box = document.getElementById("connectionStatusBox");
+    box.textContent = online ? "📶 Online" : "📴 Offline";
+    box.classList.toggle("offline", !online);
+  }
+
+  window.addEventListener("load", () => {
+    fetchRiwayatGlobal();
+    updateConnectionStatus(navigator.onLine);
+    document.getElementById("btnReloadRiwayat").addEventListener("click", fetchRiwayatGlobal);
+  });
+
+  window.addEventListener("online", () => updateConnectionStatus(true));
+  window.addEventListener("offline", () => updateConnectionStatus(false));
+
+  document.querySelector("select[name='kategori']").addEventListener("change", function () {
+    const kategori = this.value;
+    const belakang = document.querySelector("label:contains('Tampak Belakang')").parentNode;
+    belakang.style.display = kategori === "Barang" ? "none" : "block";
+  });
+
+  document.getElementById("inventarisForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const form = e.target;
+    const status = document.getElementById("status");
+
+    // Validasi manual
+    const tahun = form.tahunRilis.value.trim();
+    const koordinat = form.titikKoordinat.value.trim();
+    const kategori = form.kategori.value;
+    const fileDepan = document.getElementById("fileDepanKamera").files[0] || document.getElementById("fileDepanGaleri").files[0];
+    const fileSamping = document.getElementById("fileSampingKamera").files[0] || document.getElementById("fileSampingGaleri").files[0];
+    const fileBelakang = document.getElementById("fileBelakangKamera").files[0] || document.getElementById("fileBelakangGaleri").files[0];
+
+    if (tahun.length !== 4 || +tahun < 1900 || +tahun > 2099) {
+      alert("Tahun harus 4 digit antara 1900–2099");
+      return;
+    }
+
+    if (!koordinat.includes(",")) {
+      alert("Titik koordinat tidak valid. Gunakan tombol 📍");
+      return;
+    }
+
+    if (!fileDepan) {
+      alert("Wajib upload gambar tampak depan");
+      return;
+    }
+
+    if (!fileSamping) {
+      alert("Wajib upload gambar tampak samping");
+      return;
+    }
+
+    if (kategori === "Bangunan" && !fileBelakang) {
+      alert("Gambar tampak belakang wajib untuk kategori Bangunan");
+      return;
+    }
+
+    if (!navigator.onLine) {
+      status.textContent = "📴 Offline, data tidak terkirim.";
+      return;
+    }
+
+    status.textContent = "⏳ Mengirim data...";
+
+    const toBase64 = file => new Promise(resolve => {
+      if (!file) return resolve("");
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(file);
+    });
+
+    const formData = new URLSearchParams({
+      namaBPP: form.namaBPP.value,
+      kategori,
+      namaBarang: form.namaBarang.value,
+      sumberDana: form.sumberDana.value,
+      tahunRilis: tahun,
+      kondisiBarang: form.kondisiBarang.value,
+      titikKoordinat: koordinat,
+      gambarDepan: await toBase64(fileDepan),
+      gambarSamping: await toBase64(fileSamping),
+      gambarBelakang: await toBase64(fileBelakang || new Blob())
+    });
+
+    const res = await fetch(webAppUrl, { method: "POST", body: formData });
+    const txt = await res.text();
+    status.textContent = txt.includes("success") ? "✅ Data berhasil disimpan" : "❌ Gagal menyimpan";
+    fetchRiwayatGlobal();
+    form.reset();
+    ["previewDepan", "previewSamping", "previewBelakang"].forEach(id => document.getElementById(id).src = "");
+  });
+
 
     function updateConnectionStatus(online) {
       const box = document.getElementById("connectionStatusBox");
