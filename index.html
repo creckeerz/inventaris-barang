@@ -51,8 +51,21 @@
         <option>BPP Teluk Keramat</option><option>BPP Tangaran</option><option>BPP Paloh</option>
       </select>
 
+      <label>Kategori</label>
+      <select name="kategoriBarang" class="form-control" required>
+        <option value="" disabled selected>-- Pilih Kategori --</option>
+        <option>Bangunan</option><option>Barang</option>
+      </select>
+
       <label>Nama Barang</label>
       <input type="text" name="namaBarang" required />
+
+      <label>Sumber Dana</label>
+      <select name="kategoriBarang" class="form-control" required>
+        <option value="" disabled selected>-- Pilih Sumber Dana --</option>
+        <option>APBN</option><option>APBD</option><option>FEATI</option><option>READSI</option>
+        <option>IPDMIP</option><option>Lainnya</option>
+      </select>
 
       <label>Tahun</label>
       <input type="number" name="tahunRilis" placeholder="Saat Barang Diterima" required />
