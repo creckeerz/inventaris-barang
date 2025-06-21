@@ -98,14 +98,19 @@
       </div>
       <img id="previewSamping" class="preview" />
 
-      <label>Tampak Belakang</label>
-      <div class="location-group">
-        <input type="file" id="fileBelakangKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this,'previewBelakang')" />
-        <input type="file" id="fileBelakangGaleri" accept="image/*" style="display:none" onchange="previewImage(this,'previewBelakang')" />
-        <button type="button" onclick="document.getElementById('fileBelakangKamera').click()">📷 Ambil Foto</button>
-        <button type="button" onclick="document.getElementById('fileBelakangGaleri').click()">🖼️ Pilih dari Galeri</button>
-      </div>
-      <img id="previewBelakang" class="preview" />
+  
+
+      <div id="bagianBelakang" class="fade-toggle">
+  <label>Tampak Belakang</label>
+  <div class="location-group">
+    <input type="file" id="fileBelakangKamera" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this,'previewBelakang')" />
+    <input type="file" id="fileBelakangGaleri" accept="image/*" style="display:none" onchange="previewImage(this,'previewBelakang')" />
+    <button type="button" onclick="document.getElementById('fileBelakangKamera').click()">📷 Ambil Foto</button>
+    <button type="button" onclick="document.getElementById('fileBelakangGaleri').click()">🖼️ Pilih dari Galeri</button>
+  </div>
+  <img id="previewBelakang" class="preview" />
+</div>
+
 
       <button type="submit">📦 Simpan Data</button>
     </form>
@@ -225,7 +230,25 @@
   if (btnReload) {
     btnReload.addEventListener("click", fetchRiwayatGlobal);
   }
+
+  // ⬇️ Tambahkan ini
+  function aturTampilanGambarBelakang() {
+    const kategori = document.querySelector('select[name="kategori"]').value;
+    const bagianBelakang = document.getElementById("bagianBelakang");
+    if (kategori === "Barang") {
+      bagianBelakang.classList.add("hide");
+    } else {
+      bagianBelakang.classList.remove("hide");
+    }
+  }
+
+  // Jalankan saat kategori berubah
+  document.querySelector('select[name="kategori"]').addEventListener("change", aturTampilanGambarBelakang);
+
+  // Jalankan sekali saat halaman dimuat
+  aturTampilanGambarBelakang();
 });
+
 
     document.getElementById("btnReloadRiwayat").addEventListener("click", fetchRiwayatGlobal);
     window.addEventListener("online", () => updateConnectionStatus(true));
