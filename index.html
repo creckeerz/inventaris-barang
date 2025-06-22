@@ -131,11 +131,29 @@
     <p id="status"></p>
 
     <div id="logAktivitas">
-      <h3>📋 Riwayat Input</h3>
-      <button id="btnReloadRiwayat" type="button" style="margin-bottom:1rem; background:#e0e7ff; border:none; padding:.6rem 1rem; border-radius:8px; font-weight:600; cursor:pointer;">🔄 Reload Riwayat</button>
-      <ul id="logList"></ul>
-    </div>
+  <h3>📋 Riwayat Input</h3>
+
+  <div style="margin-bottom: 1rem;">
+    <input type="text" id="filterBPP" placeholder="🔍 Filter Nama BPP" style="padding: 0.5rem; width: 48%; margin-right: 4%;">
+    <select id="filterKategori" class="form-control" style="width: 48%; display: inline-block;">
+      <option value="">🔍 Semua Kategori</option>
+      <option value="Bangunan">Bangunan</option>
+      <option value="Barang">Barang</option>
+    </select>
   </div>
+
+  <button id="btnReloadRiwayat" type="button" style="margin-bottom:1rem; background:#e0e7ff; border:none; padding:.6rem 1rem; border-radius:8px; font-weight:600; cursor:pointer;">🔄 Reload Riwayat</button>
+  <button id="btnExportExcel" style="margin-bottom: 1rem; background:#bbf7d0; border:none; padding:.6rem 1rem; border-radius:8px; font-weight:600; cursor:pointer;">📁 Ekspor ke Excel</button>
+
+  <ul id="logList"></ul>
+
+  <div style="text-align: center; margin-top: 1rem;">
+    <button id="prevPage">⬅️ Prev</button>
+    <span id="pageInfo" style="margin: 0 1rem;"></span>
+    <button id="nextPage">➡️ Next</button>
+  </div>
+</div>
+
 
   <div id="connectionStatusBox">📶 Online</div>
 
@@ -164,6 +182,88 @@
       }
     );
   }
+
+
+    <script>
+  let fullData = [];
+  let currentPage = 1;
+  const pageSize = 5;
+
+  function tampilkanLog(logs) {
+    const ul = document.getElementById("logList");
+    ul.innerHTML = logs.length ? "" : "<li>🔍 Tidak ada data ditemukan.</li>";
+    logs.forEach(item => {
+      const li = document.createElement("li");
+      li.innerHTML = `<strong>${item["Nama Barang"]}</strong> (${item["Nama BPP"]})<br/>Kategori: ${item["Kategori"]}, Tahun: ${item["Tahun Rilis"]}, Kondisi: ${item["Kondisi Barang"]}<br/>Lokasi: ${item["Titik Koordinat"]}<br/><small>🕒 ${item["Timestamp"]}</small>`;
+      ul.appendChild(li);
+    });
+  }
+
+  function renderPagination(logs) {
+    const start = (currentPage - 1) * pageSize;
+    const pageData = logs.slice(start, start + pageSize);
+    tampilkanLog(pageData);
+
+    const totalPages = Math.ceil(logs.length / pageSize);
+    document.getElementById("pageInfo").textContent = `Halaman ${currentPage} dari ${totalPages}`;
+    document.getElementById("prevPage").disabled = currentPage === 1;
+    document.getElementById("nextPage").disabled = currentPage === totalPages;
+  }
+
+  function applyFilter() {
+    const bpp = document.getElementById("filterBPP").value.toLowerCase();
+    const kategori = document.getElementById("filterKategori").value;
+    const filtered = fullData.filter(item => {
+      const matchBPP = item["Nama BPP"]?.toLowerCase().includes(bpp);
+      const matchKategori = kategori === "" || item["Kategori"] === kategori;
+      return matchBPP && matchKategori;
+    });
+    currentPage = 1;
+    renderPagination(filtered);
+  }
+
+  document.getElementById("filterBPP").addEventListener("input", applyFilter);
+  document.getElementById("filterKategori").addEventListener("change", applyFilter);
+
+  document.getElementById("prevPage").addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      applyFilter();
+    }
+  });
+
+  document.getElementById("nextPage").addEventListener("click", () => {
+    currentPage++;
+    applyFilter();
+  });
+
+  document.getElementById("btnExportExcel").addEventListener("click", () => {
+    const csv = fullData.map(row => 
+      `"${row["Nama BPP"]}","${row["Kategori"]}","${row["Nama Barang"]}","${row["Tahun Rilis"]}","${row["Kondisi Barang"]}","${row["Titik Koordinat"]}","${row["Timestamp"]}"`
+    ).join("\n");
+
+    const blob = new Blob(["Nama BPP,Kategori,Nama Barang,Tahun,Kondisi,Koordinat,Timestamp\n" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "riwayat_inventaris.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+
+  async function fetchRiwayatGlobal() {
+    try {
+      const res = await fetch(webAppUrl);
+      fullData = await res.json();
+      applyFilter();
+    } catch (err) {
+      document.getElementById("logList").innerHTML = "<li>Gagal memuat riwayat</li>";
+    }
+  }
+</script>
+
 
   function tampilkanLog(logs) {
     const ul = document.getElementById("logList");
