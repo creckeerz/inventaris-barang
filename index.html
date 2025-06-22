@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bangunan dan Inventaris Barang</title>
@@ -133,15 +134,27 @@
     <!-- Tambahkan di dalam .container, menggantikan logAktivitas -->
 <div id="logAktivitas">
   <h3>📋 Riwayat Input</h3>
+
+  <!-- Pencarian -->
   <input type="text" id="searchInput" placeholder="🔍 Cari Nama BPP..." style="width:100%;margin-bottom:0.5rem;padding:0.6rem;border-radius:8px;border:1px solid #ccc;" />
+
+  <!-- Tombol Reload -->
   <button id="btnReloadRiwayat" type="button" style="margin-bottom:1rem; background:#e0e7ff; border:none; padding:.6rem 1rem; border-radius:8px; font-weight:600; cursor:pointer;">🔄 Reload Riwayat</button>
+
+  <!-- Daftar Riwayat -->
   <ul id="logList"></ul>
-  <div id="paginationControls" style="display:flex;justify-content:center;gap:1rem;margin-top:1rem;">
-    <button id="prevPage" disabled>⬅️ Prev</button>
+
+  <!-- Kontrol Pagination -->
+  <div id="paginationControls" style="display:flex;justify-content:center;align-items:center;gap:1rem;margin-top:1rem;">
+    <button id="prevPage" disabled style="padding:0.4rem 1rem;border-radius:6px;background:#f3f4f6;border:1px solid #ccc;">⬅️ Prev</button>
     <span id="pageInfo" style="line-height:2.2rem;"></span>
-    <button id="nextPage" disabled>Next ➡️</button>
+    <button id="nextPage" disabled style="padding:0.4rem 1rem;border-radius:6px;background:#f3f4f6;border:1px solid #ccc;">Next ➡️</button>
   </div>
+
+  <!-- Tombol Ekspor Excel -->
+  <button id="btnExportExcel" style="margin-top:1rem;background:#10b981;color:#fff;border:none;padding:.6rem 1rem;border-radius:8px;font-weight:600;cursor:pointer;">📁 Ekspor ke Excel</button>
 </div>
+
 
 
   <div id="connectionStatusBox">📶 Online</div>
@@ -326,5 +339,6 @@ async function fetchRiwayatGlobal() {
 }
 
   </script>
+  
 </body>
 </html>
