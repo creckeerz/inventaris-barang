@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
- <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bangunan dan Inventaris Barang</title>
@@ -337,7 +336,10 @@ async function fetchRiwayatGlobal() {
     document.getElementById("logList").innerHTML = "<li>Gagal memuat riwayat</li>";
   }
 }
+   
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
+<script>
    function exportToExcel() {
   const exportData = filteredLogs.map(item => ({
     "Nama Barang": item["Nama Barang"],
@@ -363,9 +365,10 @@ async function fetchRiwayatGlobal() {
 }
 
 document.getElementById("btnExportExcel").addEventListener("click", exportToExcel);
+</script>
 
 
   </script>
-  
+
 </body>
 </html>
