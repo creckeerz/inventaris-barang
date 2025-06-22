@@ -338,6 +338,33 @@ async function fetchRiwayatGlobal() {
   }
 }
 
+   function exportToExcel() {
+  const exportData = filteredLogs.map(item => ({
+    "Nama Barang": item["Nama Barang"],
+    "Nama BPP": item["Nama BPP"],
+    "Kategori": item["Kategori"],
+    "Sumber Dana": item["Sumber Dana"],
+    "Tahun Rilis": item["Tahun Rilis"],
+    "Kondisi Barang": item["Kondisi Barang"],
+    "Titik Koordinat": item["Titik Koordinat"],
+    "Waktu Input": item["Timestamp"]
+  }));
+
+  if (exportData.length === 0) {
+    alert("Tidak ada data untuk diekspor.");
+    return;
+  }
+
+  const worksheet = XLSX.utils.json_to_sheet(exportData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Riwayat");
+
+  XLSX.writeFile(workbook, "Riwayat_Inventaris.xlsx");
+}
+
+document.getElementById("btnExportExcel").addEventListener("click", exportToExcel);
+
+
   </script>
   
 </body>
