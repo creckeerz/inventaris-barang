@@ -273,7 +273,7 @@
     window.addEventListener("offline", () => updateConnectionStatus(false));
 
       </script>
-
+<script>
 
     let fullLogData = []; // semua data
 let filteredLogs = []; // hasil pencarian
@@ -339,6 +339,8 @@ async function fetchRiwayatGlobal() {
     document.getElementById("logList").innerHTML = "<li>Gagal memuat riwayat</li>";
   }
 }
+
+    </script>
    
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
