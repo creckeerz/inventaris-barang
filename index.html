@@ -130,12 +130,19 @@
 
     <p id="status"></p>
 
-    <div id="logAktivitas">
-      <h3>📋 Riwayat Input</h3>
-      <button id="btnReloadRiwayat" type="button" style="margin-bottom:1rem; background:#e0e7ff; border:none; padding:.6rem 1rem; border-radius:8px; font-weight:600; cursor:pointer;">🔄 Reload Riwayat</button>
-      <ul id="logList"></ul>
-    </div>
+    <!-- Tambahkan di dalam .container, menggantikan logAktivitas -->
+<div id="logAktivitas">
+  <h3>📋 Riwayat Input</h3>
+  <input type="text" id="searchInput" placeholder="🔍 Cari Nama BPP..." style="width:100%;margin-bottom:0.5rem;padding:0.6rem;border-radius:8px;border:1px solid #ccc;" />
+  <button id="btnReloadRiwayat" type="button" style="margin-bottom:1rem; background:#e0e7ff; border:none; padding:.6rem 1rem; border-radius:8px; font-weight:600; cursor:pointer;">🔄 Reload Riwayat</button>
+  <ul id="logList"></ul>
+  <div id="paginationControls" style="display:flex;justify-content:center;gap:1rem;margin-top:1rem;">
+    <button id="prevPage" disabled>⬅️ Prev</button>
+    <span id="pageInfo" style="line-height:2.2rem;"></span>
+    <button id="nextPage" disabled>Next ➡️</button>
   </div>
+</div>
+
 
   <div id="connectionStatusBox">📶 Online</div>
 
@@ -252,6 +259,72 @@
 
     window.addEventListener("online", () => updateConnectionStatus(true));
     window.addEventListener("offline", () => updateConnectionStatus(false));
+
+    let fullLogData = []; // semua data
+let filteredLogs = []; // hasil pencarian
+let currentPage = 1;
+const itemsPerPage = 5;
+
+function renderPagination() {
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginated = filteredLogs.slice(start, end);
+
+  const ul = document.getElementById("logList");
+  ul.innerHTML = paginated.length ? "" : "<li>Tidak ada data ditemukan.</li>";
+  paginated.forEach(item => {
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${item["Nama Barang"]}</strong> (${item["Nama BPP"]})<br/>Tahun: ${item["Tahun Rilis"]}, Kondisi: ${item["Kondisi Barang"]}<br/>Lokasi: ${item["Titik Koordinat"]}<br/><small>🕒 ${item["Timestamp"]}</small>`;
+    ul.appendChild(li);
+  });
+
+  // Atur navigasi
+  document.getElementById("prevPage").disabled = currentPage === 1;
+  document.getElementById("nextPage").disabled = end >= filteredLogs.length;
+  document.getElementById("pageInfo").textContent = `Halaman ${currentPage} dari ${Math.ceil(filteredLogs.length / itemsPerPage)}`;
+}
+
+function applySearch() {
+  const keyword = document.getElementById("searchInput").value.toLowerCase();
+  filteredLogs = fullLogData.filter(log => log["Nama BPP"].toLowerCase().includes(keyword));
+  currentPage = 1;
+  renderPagination();
+}
+
+function tampilkanLogBaru(data) {
+  fullLogData = data.reverse();
+  applySearch();
+}
+
+// Event untuk tombol navigasi
+document.getElementById("prevPage").addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    renderPagination();
+  }
+});
+
+document.getElementById("nextPage").addEventListener("click", () => {
+  if ((currentPage * itemsPerPage) < filteredLogs.length) {
+    currentPage++;
+    renderPagination();
+  }
+});
+
+// Event pencarian
+document.getElementById("searchInput").addEventListener("input", applySearch);
+
+// Update fungsi fetch agar pakai tampilkanLogBaru
+async function fetchRiwayatGlobal() {
+  try {
+    const res = await fetch(webAppUrl);
+    const data = await res.json();
+    tampilkanLogBaru(data);
+  } catch (err) {
+    document.getElementById("logList").innerHTML = "<li>Gagal memuat riwayat</li>";
+  }
+}
+
   </script>
 </body>
 </html>
