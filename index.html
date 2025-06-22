@@ -272,6 +272,9 @@
     window.addEventListener("online", () => updateConnectionStatus(true));
     window.addEventListener("offline", () => updateConnectionStatus(false));
 
+      </script>
+
+
     let fullLogData = []; // semua data
 let filteredLogs = []; // hasil pencarian
 let currentPage = 1;
@@ -366,9 +369,6 @@ async function fetchRiwayatGlobal() {
 
 document.getElementById("btnExportExcel").addEventListener("click", exportToExcel);
 </script>
-
-
-  </script>
 
 </body>
 </html>
